@@ -22,7 +22,7 @@ package org.eclipse.microprofile.config.tck;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import jakarta.config.inject.ConfigProperty;
 
 @Dependent
 public class SimpleValuesBean {

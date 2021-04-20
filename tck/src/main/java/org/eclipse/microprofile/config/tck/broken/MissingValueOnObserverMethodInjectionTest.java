@@ -31,7 +31,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 /**
- * A test to verify that a {@link org.eclipse.microprofile.config.inject.ConfigProperty}-annotated injection point in an
+ * A test to verify that a {@link jakarta.config.inject.ConfigProperty}-annotated injection point in an
  * observer method with a payload that is not an instance of {@link java.util.Optional} that does not have a
  * corresponding configuration property value set will cause a {@link DeploymentException} to be thrown.
  *

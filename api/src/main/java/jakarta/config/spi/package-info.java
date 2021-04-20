@@ -21,11 +21,11 @@
  * This package contains classes which are used to implement the configuration API, and to extend the standard
  * configuration functionality in a portable way.
  * <p>
- * Users and frameworks may provide custom {@link org.eclipse.microprofile.config.spi.ConfigSource} and
- * {@link org.eclipse.microprofile.config.spi.Converter} instances. Configuration instances may be set up and created
- * using the {@link org.eclipse.microprofile.config.spi.ConfigBuilder} API.
+ * Users and frameworks may provide custom {@link jakarta.config.spi.ConfigSource} and
+ * {@link jakarta.config.spi.Converter} instances. Configuration instances may be set up and created
+ * using the {@link jakarta.config.spi.ConfigBuilder} API.
  * <p>
- * The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver}, which is used
+ * The package also contains the class {@link jakarta.config.spi.ConfigProviderResolver}, which is used
  * to implement the specification itself.
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -33,4 +33,4 @@
  *
  */
 @org.osgi.annotation.versioning.Version("2.0")
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;

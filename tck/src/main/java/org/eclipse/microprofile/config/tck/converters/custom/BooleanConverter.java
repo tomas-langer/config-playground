@@ -21,7 +21,7 @@ package org.eclipse.microprofile.config.tck.converters.custom;
 
 import javax.annotation.Priority;
 
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.spi.Converter;
 
 @Priority(101)
 public class BooleanConverter implements Converter<Boolean> {

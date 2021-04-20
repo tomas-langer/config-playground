@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.config;
+package jakarta.config;
 
 /**
  * The ConfigValue holds additional information after the lookup of a configuration property and is itself immutable.
  * <p>
  * Holds information about the configuration property name, configuration value, the
- * {@link org.eclipse.microprofile.config.spi.ConfigSource} name from where the configuration property was loaded and
- * the ordinal of the {@link org.eclipse.microprofile.config.spi.ConfigSource}.
+ * {@link jakarta.config.spi.ConfigSource} name from where the configuration property was loaded and
+ * the ordinal of the {@link jakarta.config.spi.ConfigSource}.
  * <p>
  * This is used together with {@link Config} to expose the configuration property lookup metadata.
  *
@@ -53,14 +53,14 @@ public interface ConfigValue {
     String getRawValue();
 
     /**
-     * The {@link org.eclipse.microprofile.config.spi.ConfigSource} name that loaded the property lookup.
+     * The {@link jakarta.config.spi.ConfigSource} name that loaded the property lookup.
      *
      * @return the ConfigSource name that loaded the property lookup or {@code null} if the property could not be found
      */
     String getSourceName();
 
     /**
-     * The {@link org.eclipse.microprofile.config.spi.ConfigSource} ordinal that loaded the property lookup.
+     * The {@link jakarta.config.spi.ConfigSource} ordinal that loaded the property lookup.
      *
      * @return the ConfigSource ordinal that loaded the property lookup or {@code 0} if the property could not be found
      */

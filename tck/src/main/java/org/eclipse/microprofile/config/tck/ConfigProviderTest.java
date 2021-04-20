@@ -30,8 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import jakarta.config.Config;
+import jakarta.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;

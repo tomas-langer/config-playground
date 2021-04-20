@@ -26,9 +26,9 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import jakarta.config.ConfigProvider;
+import jakarta.config.inject.ConfigProperty;
+import jakarta.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigProfileConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;

@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-import org.eclipse.microprofile.config.Config;
+import jakarta.config.Config;
 
 import aQute.bnd.annotation.spi.ServiceConsumer;
 
@@ -55,7 +55,7 @@ public abstract class ConfigProviderResolver {
 
     /**
      * Get the configuration instance for the current application in the manner described by
-     * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig()}.
+     * {@link jakarta.config.ConfigProvider#getConfig()}.
      *
      * @return the configuration instance
      */
@@ -63,7 +63,7 @@ public abstract class ConfigProviderResolver {
 
     /**
      * Get the configuration instance for the current application in the manner described by
-     * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)}.
+     * {@link jakarta.config.ConfigProvider#getConfig(ClassLoader)}.
      *
      * @param loader
      *            the class loader identifying the application
@@ -102,7 +102,7 @@ public abstract class ConfigProviderResolver {
      * method if you like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
-     * 
+     *
      * @param config
      *            the config to be released
      */

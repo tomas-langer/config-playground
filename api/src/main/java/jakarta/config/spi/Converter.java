@@ -24,7 +24,7 @@
  *   2016-12-01 - Emily Jiang / IBM Corp
  *      Marking as FunctionalInterface + JavaDoc + additional types
  */
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;
 
 import java.io.Serializable;
 

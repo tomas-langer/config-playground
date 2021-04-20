@@ -24,9 +24,9 @@
  *   2016-11-14 - Emily Jiang / IBM
  *      API improvements + JavaDoc  f53258b8eca1253fee52
  */
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;
 
-import org.eclipse.microprofile.config.Config;
+import jakarta.config.Config;
 
 /**
  * A builder for manually creating a configuration instance.

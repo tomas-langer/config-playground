@@ -21,8 +21,8 @@ package org.eclipse.microprofile.config.tck;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.Config;
+import jakarta.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.converters.custom.BooleanConverter;
 import org.eclipse.microprofile.config.tck.converters.custom.CharacterConverter;

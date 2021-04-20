@@ -22,7 +22,7 @@ package org.eclipse.microprofile.config.tck.broken;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import jakarta.config.inject.ConfigProperty;
 
 /**
  * A bean contains a config property injection, which converts to CustomType

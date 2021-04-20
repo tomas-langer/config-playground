@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.ConfigSourceProvider;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

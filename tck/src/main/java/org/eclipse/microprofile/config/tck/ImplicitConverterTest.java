@@ -25,7 +25,7 @@ import java.time.YearMonth;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
+import jakarta.config.Config;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceOfBeforeValueOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceParseBeforeConstructor;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceValueOfBeforeParse;
@@ -49,7 +49,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
- * 
+ *
  */
 public class ImplicitConverterTest extends Arquillian {
 

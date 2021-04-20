@@ -38,12 +38,12 @@ import java.time.ZoneOffset;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.Config;
+import jakarta.config.inject.ConfigProperty;
+import jakarta.config.spi.ConfigProviderResolver;
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.ConfigSourceProvider;
+import jakarta.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;

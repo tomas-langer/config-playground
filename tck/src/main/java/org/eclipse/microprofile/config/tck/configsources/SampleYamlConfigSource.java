@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import jakarta.config.spi.ConfigSource;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

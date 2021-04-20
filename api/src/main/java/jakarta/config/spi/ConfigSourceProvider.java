@@ -24,7 +24,7 @@
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Methods renamed, JavaDoc and cleanup
  */
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;
 
 /**
  * A provider for <em>configuration source</em> instances.

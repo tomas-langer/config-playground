@@ -26,9 +26,9 @@
  *   2016-12-02 - Viktor Klang
  *      removed ConfigFilter and security related functionality.
  */
-package org.eclipse.microprofile.config;
+package jakarta.config;
 
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
+import jakarta.config.spi.ConfigProviderResolver;
 
 /**
  * This is the central class to access a {@link Config}.
@@ -40,10 +40,10 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * thread's {@linkplain Thread#getContextClassLoader() context class loader}.
  * <p>
  * A <em>configuration</em> consists of information collected from the registered
- * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource configuration sources}</em>, combined with the set
- * of registered {@linkplain org.eclipse.microprofile.config.spi.Converter converters}. The <em>configuration
+ * <em>{@linkplain jakarta.config.spi.ConfigSource configuration sources}</em>, combined with the set
+ * of registered {@linkplain jakarta.config.spi.Converter converters}. The <em>configuration
  * sources</em> get sorted according to their
- * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal() ordinal value}</em>. Thus it is
+ * <em>{@linkplain jakarta.config.spi.ConfigSource#getOrdinal() ordinal value}</em>. Thus it is
  * possible to override a lower-priority <em>configuration source</em> with a higher-priority one.
  * <p>
  * It is also possible to register custom <em>configuration sources</em> to flexibly extend the configuration mechanism.
@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  *
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * String restUrl = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.url&quot;, String.class);
  * Integer port = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.port&quot;, Integer.class);

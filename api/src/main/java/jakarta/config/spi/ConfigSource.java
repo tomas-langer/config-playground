@@ -24,7 +24,7 @@
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Methods renamed, JavaDoc and cleanup
  */
-package org.eclipse.microprofile.config.spi;
+package jakarta.config.spi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +91,7 @@ import java.util.Set;
  * which contains the fully qualified {@code ConfigSource} implementation class name as its content.
  *
  * <p>
- * Configuration sources may also be added by defining {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider}
+ * Configuration sources may also be added by defining {@link jakarta.config.spi.ConfigSourceProvider}
  * classes which are discoverable in this manner.
  *
  * <h3>Closing configuration sources</h3>

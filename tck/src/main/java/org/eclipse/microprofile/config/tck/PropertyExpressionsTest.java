@@ -19,7 +19,7 @@
 package org.eclipse.microprofile.config.tck;
 
 import static java.util.stream.Collectors.toList;
-import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
+import static jakarta.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
@@ -31,9 +31,9 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import jakarta.config.Config;
+import jakarta.config.spi.ConfigProviderResolver;
+import jakarta.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;

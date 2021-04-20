@@ -19,10 +19,10 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.tck;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.Config;
+import jakarta.config.spi.ConfigProviderResolver;
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
 import org.eclipse.microprofile.config.tck.converters.PizzaConverter;

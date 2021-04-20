@@ -19,7 +19,7 @@
  */
 package org.eclipse.microprofile.config.tck.converters;
 
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.spi.Converter;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

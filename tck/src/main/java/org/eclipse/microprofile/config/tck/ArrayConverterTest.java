@@ -43,8 +43,8 @@ import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.Config;
+import jakarta.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
 import org.eclipse.microprofile.config.tck.converters.PizzaConverter;
 import org.jboss.arquillian.container.test.api.Deployment;

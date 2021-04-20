@@ -19,7 +19,7 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import org.eclipse.microprofile.config.inject.ConfigProperties;
+import jakarta.config.inject.ConfigProperties;
 
 @ConfigProperties(prefix = "customer")
 public class ConfigPropertiesBeanMissingProperty {

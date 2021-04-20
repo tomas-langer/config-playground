@@ -23,9 +23,9 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+import jakarta.config.Config;
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.ConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;

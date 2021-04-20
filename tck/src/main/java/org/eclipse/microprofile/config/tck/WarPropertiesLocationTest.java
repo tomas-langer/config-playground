@@ -21,7 +21,7 @@ package org.eclipse.microprofile.config.tck;
 
 import static org.testng.Assert.assertEquals;
 
-import org.eclipse.microprofile.config.ConfigProvider;
+import jakarta.config.ConfigProvider;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;

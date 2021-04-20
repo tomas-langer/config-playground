@@ -25,7 +25,7 @@ import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import jakarta.config.inject.ConfigProperty;
 
 @Dependent
 public class ClassConverterBean {

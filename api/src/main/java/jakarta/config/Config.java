@@ -29,15 +29,15 @@
  *      ConfigSnapshot added. Initially authored in Apache DeltaSpike fdd1e3dcd9a12ceed831dd
  *      Additional reviews and feedback by Tomas Langer.
  */
-package org.eclipse.microprofile.config;
+package jakarta.config;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.Converter;
+import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.Converter;
 
 /**
  * Resolves the property value by searching through all configured {@link ConfigSource ConfigSources}. If the same
@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * the programmatically created ones are not required to be serializable.
  * <p>
  * If one or more converters are registered for a class of a requested value then the registered
- * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @javax.annotation.Priority} is
+ * {@link jakarta.config.spi.Converter} which has the highest {@code @javax.annotation.Priority} is
  * used to convert the string value retrieved from the config sources.
  *
  * <h2>Usage</h2>
@@ -82,7 +82,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  *
  * <p>
  * Configured values can also be accessed via injection. See
- * {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
+ * {@link jakarta.config.inject.ConfigProperty} for more information.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -257,7 +257,7 @@ public interface Config {
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
      * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration
      * sources}, determined at application start time, and the config sources themselves may be static or dynamic.
-     * 
+     *
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
