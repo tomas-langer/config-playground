@@ -23,8 +23,6 @@ import java.util.ServiceLoader;
 
 import jakarta.config.Config;
 
-import aQute.bnd.annotation.spi.ServiceConsumer;
-
 /**
  * The service provider for implementations of the MicroProfile Configuration specification.
  * <p>
@@ -36,14 +34,6 @@ import aQute.bnd.annotation.spi.ServiceConsumer;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-
-/*
- * The @ServiceConsumer annotation adds support for Service Loader Mediator in order to support wiring of Service Loader
- * providers to consumers in OSGi. However, the requirements generated are specified as effective:=active to prevent
- * this from being a strict requirement. As such the API is usable in runtimes without a Service Loader Mediator
- * implementation while allowing for such to be enabled when using the resolver during assembly.
- */
-@ServiceConsumer(value = ConfigProviderResolver.class, effective = "active")
 public abstract class ConfigProviderResolver {
     /**
      * Construct a new instance.
@@ -96,6 +86,10 @@ public abstract class ConfigProviderResolver {
      *             if there is already a configuration registered for the application
      */
     public abstract void registerConfig(Config config, ClassLoader classLoader);
+
+    public void registerConfig(Config config) {
+        registerConfig(config, null);
+    }
 
     /**
      * A {@link Config} normally gets released if the Application it is associated with gets destroyed. Invoke this

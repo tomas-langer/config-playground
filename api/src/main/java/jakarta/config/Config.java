@@ -81,8 +81,8 @@ import jakarta.config.spi.Converter;
  * See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
  *
  * <p>
- * Configured values can also be accessed via injection. See
- * {@link jakarta.config.inject.ConfigProperty} for more information.
+ * Configured values can also be accessed via injection when within CDI. See
+ * {@code jakarta.config.inject.ConfigProperty} for more information.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -90,7 +90,6 @@ import jakarta.config.spi.Converter;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
  */
-@org.osgi.annotation.versioning.ProviderType
 public interface Config {
     /**
      * The value of the property specifies a single active profile.
@@ -103,7 +102,7 @@ public interface Config {
      *
      * By default, the value is set to <code>true</code>.
      */
-    String PROPERTY_EXPRESSIONS_ENABLED = "mp.config.property.expressions.enabled";
+    String PROPERTY_EXPRESSIONS_ENABLED = "jakarta.config.property.expressions.enabled";
 
     /**
      * Return the resolved property value with the specified type for the specified property name from the underlying

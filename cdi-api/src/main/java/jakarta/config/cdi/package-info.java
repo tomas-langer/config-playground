@@ -45,4 +45,4 @@
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 @org.osgi.annotation.versioning.Version("1.1")
-package jakarta.config.inject;
+package jakarta.config.cdi;

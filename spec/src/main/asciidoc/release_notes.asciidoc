@@ -38,7 +38,7 @@ In the previous release, the empty value was returned as an empty value. From no
 
 === API/SPI Changes
 - Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])
-- Enable bulk-extraction of config properties into a separate POJO by introducing `@ConfigProperties` (link:https://github.com/eclipse/microprofile-config/issues/240[240])
+- Enable bulk-extraction of config properties into a separate POJO by introducing `ConfigValues` (link:https://github.com/eclipse/microprofile-config/issues/240[240])
 - Enable users to determine the winning source for a configuration value (link:https://github.com/eclipse/microprofile-config/issues/312[312]) (link:https://github.com/eclipse/microprofile-config/issues/43[43])
 - Expose conversion mechanism in Config API (link:https://github.com/eclipse/microprofile-config/issues/492[492])
 - Add unwrap() methods to Config (link:https://github.com/eclipse/microprofile-config/issues/84[84])
@@ -163,7 +163,7 @@ A full list of changes may be found on the link:https://github.com/eclipse/micro
 === Functional Changes
 
 - Implementations must now include a `URL` Converter, of `@Priority(1)` (link:https://github.com/eclipse/microprofile-config/issues/181[#181])
-- The format of the default property name for an injection point using `@ConfigProperty` has been changed to no longer lower case the first letter of the class.  Implementations may still support this behavior.  Instead, MicroProfile Config 1.1 requires the actual class name to be used. (link:https://github.com/eclipse/microprofile-config/issues/233[#233])
+- The format of the default property name for an injection point using `ConfigValue` has been changed to no longer lower case the first letter of the class.  Implementations may still support this behavior.  Instead, MicroProfile Config 1.1 requires the actual class name to be used. (link:https://github.com/eclipse/microprofile-config/issues/233[#233])
 - Implementations must now support primitive types, in addition to the already specified primitive type wrappers (link:https://github.com/eclipse/microprofile-config/issues/204[#204])
 
 === Specification Changes

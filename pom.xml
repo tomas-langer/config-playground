@@ -22,17 +22,28 @@
         <version>1.0</version>
     </parent>
 
-    <groupId>org.eclipse.microprofile.config</groupId>
-    <artifactId>microprofile-config-parent</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <groupId>jakarta.config</groupId>
+    <artifactId>jakarta-config-project</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    <name>MicroProfile Config</name>
-    <url>https://microprofile.io/project/eclipse/microprofile-config</url>
+    <name>Jakarta Config</name>
+    <url>https://jakarta.ee/specifications/config/</url>
 
     <properties>
-        <inceptionYear>2016</inceptionYear>
+        <inceptionYear>2021</inceptionYear>
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
+
+    <modules>
+        <module>spec</module>
+        <module>api</module>
+        <module>tck</module>
+        <module>example</module>
+        <module>cdi-api</module>
+        <module>cdi-tck</module>
+        <module>cdi-example</module>
+    </modules>
 
     <licenses>
         <license>
@@ -49,7 +60,7 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/eclipse/microprofile-config/issues</url>
+        <url>https://github.com/eclipse/jakarta/config/issues</url>
     </issueManagement>
 
     <developers>
@@ -59,6 +70,13 @@
             <url>https://github.com/Emily-Jiang</url>
             <organization>IBM</organization>
             <organizationUrl>https://www.ibm.com</organizationUrl>
+        </developer>
+        <developer>
+            <id>Tomas-Langer</id>
+            <name>Tomas Langer</name>
+            <url>https://github.com/tomas-langer</url>
+            <organization>Oracle</organization>
+            <organizationUrl>https://www.oracle.com</organizationUrl>
         </developer>
         <developer>
             <id>struberg</id>
@@ -90,33 +108,17 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- TODO - Investigate BND Dependencies-->
             <dependency>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>biz.aQute.bnd.annotation</artifactId>
-                <version>5.3.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.service.cdi</artifactId>
-                <version>1.0.0</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.microprofile.config</groupId>
-                <artifactId>microprofile-config-api</artifactId>
+                <groupId>jakarta.config</groupId>
+                <artifactId>jakarta-config-api</artifactId>
                 <version>${project.version}</version>
-                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.config</groupId>
+                <artifactId>jakarta-config-cdi-api</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>spec</module>
-        <module>api</module>
-        <module>tck</module>
-    </modules>
 
 </project>

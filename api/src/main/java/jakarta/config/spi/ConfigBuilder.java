@@ -37,7 +37,6 @@ import jakarta.config.Config;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-@org.osgi.annotation.versioning.ProviderType
 public interface ConfigBuilder {
     /**
      * Add the <a href="ConfigSource.html#default_config_sources"><em>default configuration sources</em></a> to the

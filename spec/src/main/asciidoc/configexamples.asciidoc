@@ -67,7 +67,7 @@ When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the 
 
 === Simple Dependency Injection Example
 
-MicroProfile Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
+MicroProfile Config also provides ways to inject configured values into your beans using the `@Inject` and the `ConfigValue` qualifier.
 The `@Inject` annotation declares an injection point. When using this on a passivation capable bean, refer to https://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#passivating_scope[CDI Specification^]
 for more details on how to make the injection point to be passivation capable.
 [source, java]
@@ -371,16 +371,16 @@ The table below defines the conversion rules, including some special edge case s
 |===
 
 === Remove config properties
-Sometimes, there is a need to remove a property. This can be done by setting an empty value or a value causing the corresponding converter returning `null` in a config source. 
-When injecting a property that has been deleted, `DeploymentException` will be thrown unless the return type is `Optional`. 
+Sometimes, there is a need to remove a property. This can be done by setting an empty value or a value causing the corresponding converter returning `null` in a config source.
+When injecting a property that has been deleted, `DeploymentException` will be thrown unless the return type is `Optional`.
 
 === Aggregate related properties into a CDI bean
 
-When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigProperty` in scatter places.
+When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigValue` in scatter places.
 Since they are related, it makes more sense to aggregate them into a single property class.
 
-MicroProfile Config provides a way to look up a number of configuration properties starting with the same prefix using the `@ConfigProperties` annotation, e.g. `ConfigProperties(prefix="myPrefix")`.
-When annotating a class with `@ConfigProperties` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules.
+MicroProfile Config provides a way to look up a number of configuration properties starting with the same prefix using the `ConfigValues` annotation, e.g. `ConfigProperties(prefix="myPrefix")`.
+When annotating a class with `ConfigValues` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules.
 
 * If the `prefix` is present, the field `x` maps to the configuration property `<prefix>.x`.
 * If the `prefix` is absent, the field `x` maps to the property name `x`.
@@ -412,7 +412,7 @@ endpoint=book
 old.location=Berlin
 ----
 
-In order to retrieve the above properties in a single property class, you can use the `@ConfigProperties` annotation with a prefix.
+In order to retrieve the above properties in a single property class, you can use the `ConfigValues` annotation with a prefix.
 
 [source, java]
 ----
@@ -435,7 +435,7 @@ You can then use one of the following to retrieve the properties.
 
 ==== Programmatic lookup of the bean annotated with `@ConfigProperites`
 
-Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g.
+Since the class with `ConfigValues` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g.
 
 [source, java]
 ----
@@ -461,9 +461,9 @@ serverDetails.endpoint -> server.endpoint -> query
 serverDetails.getLocation() -> server.old.location -> London
 ----
 
-Specify the prefix attribute on the annotation `@ConfigProperties` when injecting the bean.
+Specify the prefix attribute on the annotation `ConfigValues` when injecting the bean.
 
-In this case, the prefix associated with `@ConfigProperties` on this injection point overrides the prefix specified on the bean class.
+In this case, the prefix associated with `ConfigValues` on this injection point overrides the prefix specified on the bean class.
 
 [source, java]
 ----
@@ -482,7 +482,7 @@ clientDetails.endpoint -> client.endpoint -> shelf
 clientDetails.getLocation() -> client.old.location -> Dublin
 ----
 
-If `@ConfigProperties` has no associated prefix at the injection point, it defaults to the prefix set in the `Details`
+If `ConfigValues` has no associated prefix at the injection point, it defaults to the prefix set in the `Details`
 class, `server`.
 
 [source, java]
@@ -502,7 +502,7 @@ details.endpoint -> server.endpoint -> query
 details.getLocation() -> server.old.location -> London
 ----
 
-If `@ConfigProperties` specifies an empty prefix at the injection point:
+If `ConfigValues` specifies an empty prefix at the injection point:
 
 [source, java]
 ----
@@ -530,11 +530,11 @@ When performing property lookup, a `DeploymentException` will be thrown for the 
 Use one of the following to fix the problem.
 ** Define a value for the property
 ** Supply a default value when defining the field.
-** Use `@ConfigProperty` to provide a default value.
+** Use `ConfigValue` to provide a default value.
 ** Use `Optional<T>` or `OptionalInt`, `OptionalDouble`, `OptionalLong` as the type.
 
 2. The property value cannot be converted to the specified type
 
 If any of the property cannot be found and there is neither default value nor property is not optional, `java.util.NoSuchElementException` will be thrown.
-In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value.
+In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `ConfigValue` to provide a default value.
 You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type. If any property values cannot be converted to the specified type, `java.lang.IllegalArgumentException` will be thrown.

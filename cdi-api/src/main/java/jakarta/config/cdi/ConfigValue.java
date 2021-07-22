@@ -16,15 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jakarta.config.inject;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.osgi.annotation.bundle.Requirement.Resolution.OPTIONAL;
-import static org.osgi.service.cdi.CDIConstants.CDI_EXTENSION_PROPERTY;
+package jakarta.config.cdi;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -32,7 +24,11 @@ import java.lang.annotation.Target;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
-import org.osgi.annotation.bundle.Requirement;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Binds the injection point with a configured value.
@@ -113,15 +109,7 @@ import org.osgi.annotation.bundle.Requirement;
 @Qualifier
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
-/*
- * Two @Requirement annotations are defined so that the result is a _weak requirement_. One requirement is
- * resolution:=optional which means that at runtime, if satisfied, it will be wired, otherwise it is simply ignored.
- * Another requirement is effective:=active which means it is not visible at runtime, but applicable during assembly
- * where an effectviness of _active_ is specified.
- */
-@Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", effective = "active")
-@Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", resolution = OPTIONAL)
-public @interface ConfigProperty {
+public @interface ConfigValue {
     String UNCONFIGURED_VALUE = "org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
      * The key of the config property used to look up the configuration value.
@@ -136,7 +124,7 @@ public @interface ConfigProperty {
      * @return Name (key) of the config property to inject
      */
     @Nonbinding
-    String name() default "";
+    String value() default "";
 
     /**
      * The default value if the configured property does not exist. This value acts as a configure source with the

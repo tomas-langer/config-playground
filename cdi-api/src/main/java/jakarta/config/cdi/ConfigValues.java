@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jakarta.config.inject;
+package jakarta.config.cdi;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -59,7 +59,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface ConfigProperties {
+public @interface ConfigValues {
     String UNCONFIGURED_PREFIX = "org.eclipse.microprofile.config.inject.configproperties.unconfiguredprefix";
 
     /**
@@ -68,12 +68,12 @@ public @interface ConfigProperties {
      * @return the configuration property prefix
      */
     @Nonbinding
-    String prefix() default UNCONFIGURED_PREFIX;
+    String value() default UNCONFIGURED_PREFIX;
 
     /**
-     * Support inline instantiation of the {@link ConfigProperties} qualifier.
+     * Support inline instantiation of the {@link ConfigValues} qualifier.
      */
-    final class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
+    final class Literal extends AnnotationLiteral<ConfigValues> implements ConfigValues {
         public static final Literal NO_PREFIX = of(UNCONFIGURED_PREFIX);
 
         private static final long serialVersionUID = 1L;
@@ -88,7 +88,7 @@ public @interface ConfigProperties {
         }
 
         @Override
-        public String prefix() {
+        public String value() {
             return prefix;
         }
     }
