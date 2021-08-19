@@ -2,9 +2,9 @@ package jakarta.config.example;
 
 import java.net.URI;
 
-import jakarta.config.Config;
-import jakarta.config.ConfigProvider;
-import jakarta.config.Configured;
+import jakarta.config.flat.Config;
+import jakarta.config.flat.ConfigProvider;
+import jakarta.config.flat.Configured;
 
 public class ApiExampleMain {
     public static void main(String[] args) {

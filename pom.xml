@@ -36,13 +36,8 @@
     </properties>
 
     <modules>
-        <module>spec</module>
         <module>api</module>
-        <module>tck</module>
         <module>example</module>
-        <module>cdi-api</module>
-        <module>cdi-tck</module>
-        <module>cdi-example</module>
     </modules>
 
     <licenses>
