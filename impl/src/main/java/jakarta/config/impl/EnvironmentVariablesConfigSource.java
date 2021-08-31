@@ -42,7 +42,7 @@ class EnvironmentVariablesConfigSource implements ConfigSource,
 
     @Override
     public Optional<ConfigNode> node(String key) {
-        // environment variable config source is immutable - we can safely cache all requested keys, so we
+        // environment variable config configSource is immutable - we can safely cache all requested keys, so we
         // do not execute the regular expression on every get
         return cache.computeIfAbsent(key, theKey -> {
                 // According to the spec, we have three ways of looking for a property

@@ -40,7 +40,7 @@ final class ConfigFactory {
     /**
      * Create new instance of the factory operating on specified {@link ConfigSource}.
      * @param mapperManager  manager to be used to map string value to appropriate type
-     * @param node           root configuration node provided by the configuration source to be used to build
+     * @param node           root configuration node provided by the configuration configSource to be used to build
      *                       {@link Config} instances on.
      * @param provider       shared config provider
      */

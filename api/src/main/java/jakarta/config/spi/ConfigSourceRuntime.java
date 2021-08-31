@@ -57,4 +57,8 @@ public interface ConfigSourceRuntime {
      * @return {@code true} if the underlying config source cannot load whole configuration tree
      */
     boolean isLazy();
+
+    int priority();
+
+    ConfigSource configSource();
 }

@@ -87,38 +87,38 @@ class ParsableContentImpl implements ConfigContent.ParsableContent {
         }
 
         /**
-         * Data of the config source as loaded from underlying storage.
+         * Data of the config configSource as loaded from underlying storage.
          *
          * @param data to be parsed
          * @return updated builder instance
          */
-        public Builder data(InputStream data) {
+        Builder data(InputStream data) {
             Objects.requireNonNull(data, "Parsable input stream must be provided");
             this.data = data;
             return this;
         }
 
         /**
-         * Media type of the content if known by the config source.
+         * Media type of the content if known by the config configSource.
          * Media type is configured on content, as sometimes you need the actual file to exist to be able to
          * "guess" its media type, and this is the place we are sure it exists.
          *
-         * @param mediaType media type of the content as understood by the config source
+         * @param mediaType media type of the content as understood by the config configSource
          * @return updated builder instance
          */
-        public Builder mediaType(String mediaType) {
+        Builder mediaType(String mediaType) {
             Objects.requireNonNull(mediaType, "Media type must be provided, or this method should not be called");
             this.mediaType = mediaType;
             return this;
         }
 
         /**
-         * Configure charset if known by the config source.
+         * Configure charset if known by the config configSource.
          *
          * @param charset charset to use if the content should be read using a reader
          * @return updated builder instance
          */
-        public Builder charset(Charset charset) {
+        Builder charset(Charset charset) {
             Objects.requireNonNull(charset, "Charset must be provided, or this method should not be called");
             this.charset = charset;
             return this;

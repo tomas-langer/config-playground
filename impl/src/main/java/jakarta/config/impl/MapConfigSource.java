@@ -24,7 +24,7 @@ import jakarta.config.spi.NodeConfigSource;
 import jakarta.config.spi.PollableConfigSource;
 
 /**
- * Map based config source.
+ * Map based config configSource.
  */
 class MapConfigSource implements NodeConfigSource, PollableConfigSource<Map<String, String>> {
     private final Map<String, String> map;

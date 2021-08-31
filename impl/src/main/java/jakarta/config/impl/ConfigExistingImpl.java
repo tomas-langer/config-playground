@@ -24,6 +24,7 @@ import java.util.function.Function;
 import jakarta.config.Config;
 import jakarta.config.ConfigValue;
 import jakarta.config.spi.ConfigNode;
+import jakarta.config.spi.ConfigSource;
 
 /**
  * Implementation of {@link Config} that represents NOT {@link Type#MISSING missing} node.
@@ -104,12 +105,14 @@ abstract class ConfigExistingImpl<N extends ConfigNode> extends AbstractConfigIm
 
             @Override
             public String getSourceName() {
-                return node.toString();
+                return node.configSource()
+                    .map(ConfigSource::getName)
+                    .orElse(null);
             }
 
             @Override
             public int getSourceOrdinal() {
-                return 0;
+                return node.sourcePriority().orElse(0);
             }
         };
     }

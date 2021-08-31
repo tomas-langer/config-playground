@@ -138,7 +138,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code byte}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code byte}
      */
     public static Byte toByte(String stringValue) {
@@ -148,7 +148,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code short}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code short}
      */
     public static Short toShort(String stringValue) {
@@ -162,7 +162,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code int}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code int}
      */
     public static Integer toInt(String stringValue) {
@@ -172,7 +172,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code long}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code long}
      */
     public static Long toLong(String stringValue) {
@@ -182,7 +182,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code float}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code float}
      */
     public static Float toFloat(String stringValue) {
@@ -192,7 +192,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code double}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code double}
      */
     public static Double toDouble(String stringValue) {
@@ -202,7 +202,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code boolean}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code boolean}
      */
     public static Boolean toBoolean(String stringValue) {
@@ -223,7 +223,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code char}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code char}
      */
     public static Character toChar(String stringValue) {
@@ -237,7 +237,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Class<?>}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Class<?>}
      */
     public static Class<?> toClass(String stringValue) {
@@ -251,7 +251,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code UUID}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code UUID}
      */
     public static UUID toUUID(String stringValue) {
@@ -261,7 +261,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code BigDecimal}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code BigDecimal}
      */
     public static BigDecimal toBigDecimal(String stringValue) {
@@ -271,7 +271,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code BigInteger}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code BigInteger}
      */
     public static BigInteger toBigInteger(String stringValue) {
@@ -281,7 +281,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code File}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code File}
      */
     public static File toFile(String stringValue) {
@@ -291,7 +291,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Path}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Path}
      */
     public static Path toPath(String stringValue) {
@@ -301,7 +301,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Charset}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Charset}
      */
     public static Charset toCharset(String stringValue) {
@@ -311,7 +311,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Pattern}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Pattern}
      */
     public static Pattern toPattern(String stringValue) {
@@ -321,7 +321,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code URI}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code URI}
      */
     public static URI toUri(String stringValue) {
@@ -331,7 +331,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code URL}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code URL}
      */
     public static URL toUrl(String stringValue) {
@@ -345,7 +345,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Date}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Date}
      * @see java.time.format.DateTimeFormatter#ISO_DATE_TIME
      * @deprecated Use one of the time API classes, such as {@link java.time.Instant} or {@link java.time.ZonedDateTime}
@@ -380,7 +380,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Calendar}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Calendar}
      * @see java.time.format.DateTimeFormatter#ISO_DATE_TIME
      * @deprecated use new time API, such as {@link java.time.ZonedDateTime}
@@ -396,7 +396,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code GregorianCalendar}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code GregorianCalendar}
      * @see java.time.format.DateTimeFormatter#ISO_DATE_TIME
      * @deprecated use new time API, such as {@link java.time.ZonedDateTime}
@@ -412,7 +412,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code LocalDate}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code LocalDate}
      * @see java.time.LocalDate#parse(CharSequence)
      */
@@ -423,7 +423,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code LocalTime}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code LocalTime}
      * @see java.time.LocalTime#parse(CharSequence)
      */
@@ -434,7 +434,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code LocalDateTime}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code LocalDateTime}
      * @see java.time.LocalDateTime#parse(CharSequence)
      */
@@ -445,7 +445,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code ZonedDateTime}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code ZonedDateTime}
      * @see java.time.ZonedDateTime#parse(CharSequence)
      */
@@ -456,7 +456,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code ZoneId}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code ZoneId}
      * @see java.time.ZoneId#of(String)
      */
@@ -467,7 +467,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code ZoneOffset}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code ZoneOffset}
      * @see java.time.ZoneOffset#of(String)
      */
@@ -478,7 +478,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code TimeZone}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code TimeZone}
      * @see java.time.ZoneId#of(String)
      * @deprecated use new time API, such as {@link java.time.ZoneId}
@@ -493,7 +493,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code SimpleTimeZone}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code SimpleTimeZone}
      * @see java.time.ZoneId#of(String)
      * @deprecated use new time API, such as {@link java.time.ZoneId}
@@ -507,7 +507,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Instant}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Instant}
      * @see java.time.Instant#parse(CharSequence)
      */
@@ -518,7 +518,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code OffsetDateTime}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code OffsetDateTime}
      * @see java.time.OffsetDateTime#parse(CharSequence)
      */
@@ -529,7 +529,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code OffsetTime}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code OffsetTime}
      * @see java.time.OffsetTime#parse(CharSequence)
      */
@@ -540,7 +540,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Duration}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Duration}
      * @see java.time.Duration#parse(CharSequence)
      */
@@ -551,7 +551,7 @@ final class ConfigConverters {
     /**
      * Maps {@code stringValue} to {@code Period}.
      *
-     * @param stringValue source value as a {@code String}
+     * @param stringValue configSource value as a {@code String}
      * @return mapped {@code stringValue} to {@code Period}
      * @see java.time.Period#parse(CharSequence)
      */

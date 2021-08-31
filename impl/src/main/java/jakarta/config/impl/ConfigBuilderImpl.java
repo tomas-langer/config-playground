@@ -22,8 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 import jakarta.config.Config;
@@ -68,7 +68,7 @@ class ConfigBuilderImpl implements ConfigBuilder {
     private boolean useDiscoveredSources = false;
     private boolean useDiscoveredConverters = false;
     private String profile;
-    private Executor changesExecutor;
+    private ScheduledExecutorService changesExecutor;
     private MergingStrategy mergingStrategy = new FallbackMergingStrategy();
 
     ConfigBuilderImpl() {
@@ -76,9 +76,9 @@ class ConfigBuilderImpl implements ConfigBuilder {
 
     @Override
     public Config build() {
-        Executor executor = changesExecutor;
+        ScheduledExecutorService executor = changesExecutor;
         if (executor == null) {
-            executor = Executors.newCachedThreadPool(new ConfigThreadFactory("config-changes"));
+            executor = Executors.newSingleThreadScheduledExecutor(new ConfigThreadFactory("config-changes"));
         }
         // the build method MUST NOT modify builder state, as it may be called more than once
         // there are three lists used by the configuration:
@@ -122,7 +122,7 @@ class ConfigBuilderImpl implements ConfigBuilder {
         }
 
         // now it is from lowest to highest
-        sourceRuntimes.sort(Comparator.comparingInt(ConfigSourceRuntimeImpl::getPriority));
+        sourceRuntimes.sort(Comparator.comparingInt(ConfigSourceRuntimeImpl::priority));
         ordinalConverters.sort(Comparator.comparingInt(OrdinalConverter::getPriority));
 
         HashMap<Class<?>, Converter<?>> targetConverters = new HashMap<>();
@@ -258,7 +258,7 @@ class ConfigBuilderImpl implements ConfigBuilder {
         }
 
         static final Config EMPTY = new ConfigBuilderImpl()
-            // the empty config source is needed, so we do not look for meta config or default
+            // the empty config configSource is needed, so we do not look for meta config or default
             // config sources
             .build();
 

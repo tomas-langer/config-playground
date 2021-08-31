@@ -202,7 +202,7 @@ class ProviderImpl implements Config.Context {
         }
 
         if (configDiffs != null) {
-            LOGGER.log(Level.FINER, String.format("Firing last event %s (again)", configDiffs));
+            LOGGER.log(Level.FINER, String.format("Firing event %s", configDiffs));
 
             changesExecutor.execute(() -> {
                 for (Consumer<ConfigDiff> listener : listeners) {

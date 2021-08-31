@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import jakarta.config.spi.ConfigNode;
+import jakarta.config.spi.ConfigSource;
 
 class ObjectNodeImpl
     extends AbstractMap<String, ConfigNode> implements ConfigNode.ObjectNode {
@@ -18,6 +19,7 @@ class ObjectNodeImpl
     private final String value;
     private final String key;
     private String description;
+    private ConfigSourceInfo info = new ConfigSourceInfo();
 
     ObjectNodeImpl(Builder builder) {
         this.members = Map.copyOf(builder.members);
@@ -84,6 +86,28 @@ class ObjectNodeImpl
     @Override
     public String key() {
         return key;
+    }
+
+    @Override
+    public Optional<ConfigSource> configSource() {
+        return info.configSource();
+    }
+
+    @Override
+    public Optional<Integer> sourcePriority() {
+        return info.sourcePriority();
+    }
+
+    @Override
+    public void configSource(ConfigSource source) {
+        info.configSource(source);
+        members.forEach((key, value) -> value.configSource(source));
+    }
+
+    @Override
+    public void sourcePriority(int priority) {
+        info.sourcePriority(priority);
+        members.forEach((key, value) -> value.sourcePriority(priority));
     }
 
     private ObjectNode mergeWithValueNode(ValueNodeImpl node) {

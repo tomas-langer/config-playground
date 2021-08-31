@@ -29,7 +29,7 @@ final class ConfigSourcesRuntime {
         this.allSources = allSources;
         this.mergingStrategy = mergingStrategy;
         this.configSources = allSources.stream()
-            .map(ConfigSourceRuntimeImpl::source)
+            .map(ConfigSourceRuntimeImpl::configSource)
             .collect(Collectors.toList());
     }
 

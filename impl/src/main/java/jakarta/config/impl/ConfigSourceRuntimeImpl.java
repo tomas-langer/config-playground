@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -64,6 +65,8 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
     private volatile boolean changesWanted = false;
     // set to true if changes started
     private volatile boolean changesStarted = false;
+    private Boolean pollingEnabled;
+    private Duration pollingDuration;
 
     @SuppressWarnings("unchecked")
     ConfigSourceRuntimeImpl(ConfigSourceContextImpl context, ConfigSource configSource, int priority) {
@@ -78,25 +81,35 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         AtomicReference<Object> lastStamp = new AtomicReference<>();
 
         if (configSource instanceof ParsableConfigSource) {
-            // eager parsable config source
-            reloader = new ParsableConfigSourceReloader(context, (ParsableConfigSource) configSource, lastStamp);
+            // eager parsable config configSource
+            reloader = new ParsableConfigSourceReloader(context,
+                                                        (ParsableConfigSource) configSource,
+                                                        lastStamp,
+                                                        this::priority);
             singleNodeFunction = objectNodeToSingleNode();
         } else if (configSource instanceof NodeConfigSource) {
-            // eager node config source
-            reloader = new NodeConfigSourceReloader((NodeConfigSource) configSource, lastStamp);
+            // eager node config configSource
+            reloader = new NodeConfigSourceReloader((NodeConfigSource) configSource, lastStamp, this::priority);
             singleNodeFunction = objectNodeToSingleNode();
         } else if (configSource instanceof LazyConfigSource) {
             LazyConfigSource lazySource = (LazyConfigSource) configSource;
-            // lazy config source
+            // lazy config configSource
             reloader = Optional::empty;
-            singleNodeFunction = key -> lazySource.node(key.toString());
+            singleNodeFunction = key -> {
+                Optional<ConfigNode> node = lazySource.node(key.toString());
+                node.ifPresent(it -> {
+                    it.configSource(lazySource);
+                    it.sourcePriority(this.priority());
+                });
+                return node;
+            };
             lazy = true;
         } else {
-            throw new IllegalStateException("Config source " + configSource
+            throw new IllegalStateException("Config configSource " + configSource
                                                 + ", class: " + configSource.getClass().getName()
                                                 + ", name: " + configSource.getName()
                                                 + " does not "
-                                                + "implement any of required interfaces. A config source must at least "
+                                                + "implement any of required interfaces. A config configSource must at least "
                                                 + "implement one of the following: ParsableSource, or NodeConfigSource, or "
                                                 + "LazyConfigSource");
         }
@@ -117,8 +130,9 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
                                                          reloader,
                                                          configSource,
                                                          pollable,
-                                                         // TODO this should be configurable
-                                                         new RegularPollingStrategy(Duration.ofSeconds(10)),
+                                                         this::pollingEnabled,
+                                                         this::pollingDuration,
+                                                         context.changesExecutor(),
                                                          lastStamp);
         }
 
@@ -134,6 +148,9 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
 
     @Override
     public synchronized void onChange(BiConsumer<String, ConfigNode> change) {
+        if (!dataLoaded) {
+            throw new IllegalStateException("Cannot start changes before initial data load");
+        }
         if (!changesSupported) {
             return;
         }
@@ -143,7 +160,8 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         startChanges();
     }
 
-    ConfigSource source() {
+    @Override
+    public ConfigSource configSource() {
         return configSource;
     }
 
@@ -154,7 +172,7 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
 
     @Override
     public String toString() {
-        return getPriority() + ": " + configSource.getName() + " runtime";
+        return priority() + ": " + configSource.getName() + " runtime";
     }
 
     @Override
@@ -179,7 +197,8 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         return singleNodeFunction.apply(KeyImpl.of(key));
     }
 
-    int getPriority() {
+    @Override
+    public int priority() {
         if (loadedPriority == null) {
             return priority;
         }
@@ -189,7 +208,7 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
     @Override
     public synchronized Optional<ObjectNode> load() {
         if (dataLoaded) {
-            throw new RuntimeException("Attempting to load a single config source multiple times. This is a bug.");
+            throw new RuntimeException("Attempting to load a single config configSource multiple times. This is a bug.");
         }
 
         initialLoad();
@@ -198,12 +217,25 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
             .flatMap(it -> it.value().map(Integer::parseInt))
             .orElse(null);
 
+        // now we have loaded priority, we need to update the tree with the current priority
+        if (loadedPriority != null) {
+            this.initialData.ifPresent(it -> it.sourcePriority(loadedPriority));
+        }
+
+        this.pollingEnabled = this.node(ReservedKeys.CONFIG_POLLING_ENABLED)
+            .flatMap(it -> it.value().map(Boolean::parseBoolean))
+            .orElse(true);
+
+        this.pollingDuration = this.node(ReservedKeys.CONFIG_POLLING_DURATION)
+            .flatMap(it -> it.value().map(Duration::parse))
+            .orElseGet(() -> Duration.ofSeconds(10));
+
         return this.initialData;
     }
 
     Optional<ObjectNode> initialData() {
         if (!dataLoaded) {
-            throw new RuntimeException("Config source should have been loaded. This is a bug.");
+            throw new RuntimeException("Config configSource should have been loaded. This is a bug.");
         }
         return this.initialData;
     }
@@ -227,7 +259,7 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         Optional<ObjectNode> loadedData = reloader.get();
 
         if (loadedData.isEmpty() && !configSource.optional() && !isLazy()) {
-            throw new IllegalStateException("Cannot load data from mandatory source: " + configSource);
+            throw new IllegalStateException("Cannot load data from mandatory configSource: " + configSource);
         }
 
         this.initialData = loadedData;
@@ -243,10 +275,18 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         dataLoaded = true;
     }
 
+    private Boolean pollingEnabled() {
+        return pollingEnabled;
+    }
+
+    private Duration pollingDuration() {
+        return pollingDuration;
+    }
+
     private Function<KeyImpl, Optional<ConfigNode>> objectNodeToSingleNode() {
         return key -> {
             if (loadedData == null) {
-                throw new IllegalStateException("Single node of an eager source requested before load method was called."
+                throw new IllegalStateException("Single node of an eager configSource requested before load method was called."
                                                     + " This is a bug.");
             }
 
@@ -255,24 +295,43 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
     }
 
     private static final class PollingStrategyStarter implements Runnable {
-        private final PollingStrategy pollingStrategy;
+        private static final Logger LOGGER = Logger.getLogger(PollingStrategyStarter.class.getName());
+
         private final PollingStrategyListener listener;
+        private final ConfigSource source;
+        private final Supplier<Boolean> pollingEnabledSupplier;
+        private final Supplier<Duration> pollingDurationSupplier;
+        private final ScheduledExecutorService executor;
 
         private PollingStrategyStarter(ConfigSourceContextImpl configContext,
                                        List<BiConsumer<String, ConfigNode>> listeners,
                                        Supplier<Optional<ObjectNode>> reloader,
                                        ConfigSource source,
                                        PollableConfigSource<Object> pollable,
-                                       PollingStrategy pollingStrategy,
+                                       Supplier<Boolean> pollingEnabledSupplier,
+                                       Supplier<Duration> pollingDurationSupplier,
+                                       ScheduledExecutorService executor,
                                        AtomicReference<Object> lastStamp) {
-
-            this.pollingStrategy = pollingStrategy;
+            this.source = source;
+            this.pollingEnabledSupplier = pollingEnabledSupplier;
+            this.pollingDurationSupplier = pollingDurationSupplier;
+            this.executor = executor;
             this.listener = new PollingStrategyListener(configContext, listeners, reloader, source, pollable, lastStamp);
         }
 
         @Override
         public void run() {
-            pollingStrategy.start(listener);
+            boolean enabled = pollingEnabledSupplier.get();
+
+            if (enabled) {
+                Duration duration = pollingDurationSupplier.get();
+                LOGGER.finest(() -> "Polling strategy is enabled with polling duration of: " + duration
+                    + " for source " + source.getName());
+                PollingStrategy strategy = new RegularPollingStrategy(executor, duration);
+                strategy.start(listener);
+            } else {
+                LOGGER.finest(() -> "Polling strategy is disabled for source " + source.getName());
+            }
         }
     }
 
@@ -314,6 +373,11 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
         }
 
         @Override
+        public String toString() {
+            return "config source: " + source.getName();
+        }
+
+        @Override
         public ChangeEventType poll(Instant when) {
             Object lastStampValue = lastStamp.get();
             if ((null == lastStampValue) || pollable.isModified(lastStampValue)) {
@@ -323,7 +387,7 @@ class ConfigSourceRuntimeImpl implements ConfigSourceRuntime {
                         // this is a valid change
                         triggerChanges(configContext, listeners, objectNode);
                     } else {
-                        LOGGER.info("Mandatory config source is not available, ignoring change.");
+                        LOGGER.info("Mandatory config configSource is not available, ignoring change.");
                     }
                     return ChangeEventType.DELETED;
                 } else {

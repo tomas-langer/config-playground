@@ -30,7 +30,7 @@ public class PropertiesParser implements ConfigParser, Prioritized {
         try {
             properties.load(content.data());
         } catch (Exception e) {
-            throw new IllegalArgumentException("Cannot read properties from source: " + e.getLocalizedMessage(), e);
+            throw new IllegalArgumentException("Cannot read properties from configSource: " + e.getLocalizedMessage(), e);
         }
 
         return ConfigUtils.mapToObjectNode(ConfigUtils.propertiesToMap(properties));

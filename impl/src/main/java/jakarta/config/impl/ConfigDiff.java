@@ -95,6 +95,11 @@ class ConfigDiff {
         return node.asString();
     }
 
+    @Override
+    public String toString() {
+        return "ConfigDiff for keys: " + changedKeys;
+    }
+
     /**
      *
      * @return {@code} true if there were no changes; {@code false} otherwise

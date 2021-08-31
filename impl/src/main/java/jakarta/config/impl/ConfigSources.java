@@ -17,11 +17,9 @@
 package jakarta.config.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,6 +30,7 @@ import java.util.Properties;
 
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.NodeConfigSource;
+import jakarta.config.spi.ParsableConfigSource;
 
 /**
  * Utilities for MicroProfile Config {@link jakarta.config.spi.ConfigSource}.
@@ -39,14 +38,14 @@ import jakarta.config.spi.NodeConfigSource;
  * The following methods create MicroProfile config sources to help with manual setup of Config
  * from {@link jakarta.config.spi.ConfigProviderResolver#getBuilder()}:
  * <ul>
- *     <li>{@link #systemProperties()} - system properties config source</li>
- *     <li>{@link #environmentVariables()} - environment variables config source</li>
+ *     <li>{@link #systemProperties()} - system properties config configSource</li>
+ *     <li>{@link #environmentVariables()} - environment variables config configSource</li>
  *     <li>{@link #create(java.nio.file.Path)} - load a properties file from file system</li>
  *     <li>{@link #create(String, java.nio.file.Path)} - load a properties file from file system with custom name</li>
- *     <li>{@link #create(java.util.Map)} - create an in-memory source from map</li>
- *     <li>{@link #create(String, java.util.Map)} - create an in-memory source from map with custom name</li>
- *     <li>{@link #create(java.util.Properties)} - create an in-memory source from properties</li>
- *     <li>{@link #create(String, java.util.Properties)} - create an in-memory source from properties with custom name</li>
+ *     <li>{@link #create(java.util.Map)} - create an in-memory configSource from map</li>
+ *     <li>{@link #create(String, java.util.Map)} - create an in-memory configSource from map with custom name</li>
+ *     <li>{@link #create(java.util.Properties)} - create an in-memory configSource from properties</li>
+ *     <li>{@link #create(String, java.util.Properties)} - create an in-memory configSource from properties with custom name</li>
  * </ul>
  */
 public final class ConfigSources {
@@ -54,115 +53,97 @@ public final class ConfigSources {
     }
 
     /**
-     * In memory config source based on the provided map.
+     * In memory config configSource based on the provided map.
      *
-     * @param name name of the source
+     * @param name name of the configSource
      * @param theMap map serving as configuration data
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource create(String name, Map<String, String> theMap) {
         return new MapConfigSource(name, theMap);
     }
 
     /**
-     * In memory config source based on the provided map.
+     * In memory config configSource based on the provided map.
      *
      * @param theMap map serving as configuration data
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource create(Map<String, String> theMap) {
         return create("Map", theMap);
     }
 
     /**
-     * {@link java.util.Properties} config source based on a file on file system.
-     * The file is read just once, when the source is created and further changes to the underlying file are
+     * {@link java.util.Properties} config configSource based on a file on file system.
+     * The file is read just once, when the configSource is created and further changes to the underlying file are
      * ignored.
      *
      * @param path path of the properties file on the file system
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource create(Path path) {
         return create(path.toString(), path);
     }
 
     /**
-     * {@link java.util.Properties} config source based on a URL.
-     * The URL is read just once, when the source is created and further changes to the underlying resource are
+     * {@link java.util.Properties} config configSource based on a URL.
+     * The URL is read just once, when the configSource is created and further changes to the underlying resource are
      * ignored.
      *
      * @param url url of the properties file (any URL scheme supported by JVM can be used)
-     * @return a new config source
+     * @return a new config configSource
      */
-    public static NodeConfigSource create(URL url) {
+    public static ParsableConfigSource create(URL url) {
         String name = url.toString();
 
-        try {
-            URLConnection urlConnection = url.openConnection();
-            try (InputStream inputStream = urlConnection.getInputStream()) {
-                Properties properties = new Properties();
-                properties.load(inputStream);
-
-                return create(name, properties);
-            }
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to load ", e);
-        }
+        return new UrlConfigSource(name, url);
     }
 
     /**
-     * {@link java.util.Properties} config source based on a URL with a profile override.
-     * The URL is read just once, when the source is created and further changes to the underlying resource are
+     * {@link java.util.Properties} config configSource based on a URL with a profile override.
+     * The URL is read just once, when the configSource is created and further changes to the underlying resource are
      * ignored.
      *
      * @param url url of the properties file (any URL scheme supported by JVM can be used)
      * @param profileUrl url of the properties file of profile specific configuration
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource create(URL url, URL profileUrl) {
-        NodeConfigSource defaultSource = create(url);
-        NodeConfigSource profileSource = create(profileUrl);
+        ParsableConfigSource defaultSource = create(url);
+        ParsableConfigSource profileSource = create(profileUrl);
 
         return composite(profileSource, defaultSource);
     }
 
     /**
-     * {@link java.util.Properties} config source based on a file on file system.
-     * The file is read just once, when the source is created and further changes to the underlying file are
+     * {@link java.util.Properties} config configSource based on a file on file system.
+     * The file is read just once, when the configSource is created and further changes to the underlying file are
      * ignored.
      *
-     * @param name name of the config source
+     * @param name name of the config configSource
      * @param path path of the properties file on the file system
-     * @return a new config source
+     * @return a new config configSource
      */
-    public static ConfigSource create(String name, Path path) {
-        Properties props = new Properties();
-
-        try (InputStream in = Files.newInputStream(path)) {
-            props.load(in);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed to read properties from " + path.toAbsolutePath());
-        }
-
-        return create(name, props);
+    public static ParsableConfigSource create(String name, Path path) {
+        return new FileConfigSource(name, path);
     }
 
     /**
-     * In memory config source based on the provided properties.
+     * In memory config configSource based on the provided properties.
      *
      * @param properties serving as configuration data
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource create(Properties properties) {
         return create("Properties", properties);
     }
 
     /**
-     * In memory config source based on the provided properties.
+     * In memory config configSource based on the provided properties.
      *
-     * @param name name of the config source
+     * @param name name of the config configSource
      * @param properties serving as configuration data
-     * @return a new config source
+     * @return a new config configSource
      */
     public static NodeConfigSource create(String name, Properties properties) {
         Map<String, String> result = new HashMap<>();
@@ -173,59 +154,59 @@ public final class ConfigSources {
     }
 
     /**
-     * Environment variables config source.
-     * This source takes care of replacement of properties by environment variables as defined
+     * Environment variables config configSource.
+     * This configSource takes care of replacement of properties by environment variables as defined
      * in MicroProfile Config specification.
-     * This config source is immutable and caching.
+     * This config configSource is immutable and caching.
      *
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource environmentVariables() {
         return new EnvironmentVariablesConfigSource();
     }
 
     /**
-     * In memory config source based on system properties.
+     * In memory config configSource based on system properties.
      *
-     * @return a new config source
+     * @return a new config configSource
      */
     public static ConfigSource systemProperties() {
         return new SystemPropertiesConfigSource();
     }
 
     /**
-     * Find all resources on classpath and return a config source for each.
+     * Find all resources on classpath and return a config configSource for each.
      * Order is kept as provided by class loader.
      *
      * @param resource resource to find
-     * @return a config source for each resource on classpath, empty if none found
+     * @return a config configSource for each resource on classpath, empty if none found
      */
     public static List<ConfigSource> classPath(String resource) {
         return classPath(Thread.currentThread().getContextClassLoader(), resource);
     }
 
     /**
-     * Find all resources on classpath and return a config source for each.
+     * Find all resources on classpath and return a config configSource for each.
      * Order is kept as provided by class loader.
      *
-     * The profile will be used to locate a source with {@code -${profile}} name, such as
+     * The profile will be used to locate a configSource with {@code -${profile}} name, such as
      * {@code microprofile-config-dev.properties} for dev profile.
      *
      * @param resource resource to find
      * @param profile configuration profile to use, must not be null
-     * @return a config source for each resource on classpath, empty if none found
+     * @return a config configSource for each resource on classpath, empty if none found
      */
     public static List<ConfigSource> classPath(String resource, String profile) {
         return classPath(Thread.currentThread().getContextClassLoader(), resource, profile);
     }
 
     /**
-     * Find all resources on classpath and return a config source for each.
+     * Find all resources on classpath and return a config configSource for each.
      * Order is kept as provided by class loader.
      *
      * @param classLoader class loader to use to locate the resources
      * @param resource resource to find
-     * @return a config source for each resource on classpath, empty if none found
+     * @return a config configSource for each resource on classpath, empty if none found
      */
     public static List<ConfigSource> classPath(ClassLoader classLoader, String resource) {
         List<ConfigSource> sources = new LinkedList<>();
@@ -234,9 +215,10 @@ public final class ConfigSources {
                 .asIterator()
                 .forEachRemaining(it -> {
                     if ("file".equals(it.getProtocol())) {
-                        System.out.println();
+                        sources.add(create(Paths.get(it.getPath())));
+                    } else {
+                        sources.add(create(it));
                     }
-                    sources.add(create(it));
                 });
         } catch (IOException e) {
             throw new IllegalStateException("Failed to read \"" + resource + "\" from classpath", e);
@@ -246,16 +228,16 @@ public final class ConfigSources {
     }
 
     /**
-     * Find all resources on classpath and return a config source for each with a profile.
+     * Find all resources on classpath and return a config configSource for each with a profile.
      * Order is kept as provided by class loader.
      *
-     * The profile will be used to locate a source with {@code -${profile}} name, such as
+     * The profile will be used to locate a configSource with {@code -${profile}} name, such as
      * {@code microprofile-config-dev.properties} for dev profile.
      *
      * @param classLoader class loader to use to locate the resources
      * @param resource resource to find
      * @param profile configuration profile to use, must not be null
-     * @return a config source for each resource on classpath, empty if none found
+     * @return a config configSource for each resource on classpath, empty if none found
      */
     public static List<ConfigSource> classPath(ClassLoader classLoader, String resource, String profile) {
         Objects.requireNonNull(profile, "Profile must be defined");
@@ -297,15 +279,15 @@ public final class ConfigSources {
     }
 
     /**
-     * Create a composite config source that uses the main first, and if it does not find
-     * a property in main, uses fallback. This is useful to set up a config source with a profile,
-     * where the profile source is {@code main} and the non-profile source is {@code fallback}.
+     * Create a composite config configSource that uses the main first, and if it does not find
+     * a property in main, uses fallback. This is useful to set up a config configSource with a profile,
+     * where the profile configSource is {@code main} and the non-profile configSource is {@code fallback}.
      *
      * @param main look for properties here first
      * @param fallback if not found in main, look here
-     * @return a new config source
+     * @return a new config configSource
      */
-    static ConfigSource composite(NodeConfigSource main, NodeConfigSource fallback) {
+    public static ConfigSource composite(ConfigSource main, ConfigSource fallback) {
         String name = main.getName() + " (" + fallback.getName() + ")";
 
         return new CompositeConfigSource(name, main, fallback);

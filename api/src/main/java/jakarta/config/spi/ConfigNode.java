@@ -65,6 +65,26 @@ public interface ConfigNode {
     }
 
     /**
+     * Config source that provided this value. Only available for nodes that are backed
+     * by config source data.
+     *
+     * @return config source if available
+     */
+    Optional<ConfigSource> configSource();
+
+    /**
+     * The actual priority of the config source that provided this value.
+     *
+     * @return config source priority if available
+     * @see #configSource()
+     */
+    Optional<Integer> sourcePriority();
+
+    void configSource(ConfigSource source);
+
+    void sourcePriority(int priority);
+
+    /**
      * Base types of config nodes.
      */
     enum NodeType {
@@ -129,5 +149,6 @@ public interface ConfigNode {
 
         @Override
         ObjectNode merge(ConfigNode node);
+
     }
 }

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import jakarta.config.spi.ConfigNode;
 
-class ValueNodeImpl implements ConfigNode.ValueNode {
+class ValueNodeImpl extends ConfigSourceInfo implements ConfigNode.ValueNode {
 
     private final String key;
     private final String value;

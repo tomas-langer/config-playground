@@ -27,13 +27,18 @@ import jakarta.config.spi.ParsableConfigSource;
 class ParsableConfigSourceReloader implements Supplier<Optional<ConfigNode.ObjectNode>> {
     private final ParsableConfigSource configSource;
     private final AtomicReference<Object> lastStamp;
+    private final Supplier<Integer> sourcePriority;
     private final ConfigSourceContextImpl context;
 
-    ParsableConfigSourceReloader(ConfigSourceContextImpl context, ParsableConfigSource configSource,
-                                 AtomicReference<Object> lastStamp) {
+    ParsableConfigSourceReloader(ConfigSourceContextImpl context,
+                                 ParsableConfigSource configSource,
+                                 AtomicReference<Object> lastStamp,
+                                 Supplier<Integer> sourcePriority) {
         this.context = context;
         this.configSource = configSource;
         this.lastStamp = lastStamp;
+        // must be a supplier, as this may be only available after initial load
+        this.sourcePriority = sourcePriority;
     }
 
     @Override
@@ -44,22 +49,28 @@ class ParsableConfigSourceReloader implements Supplier<Optional<ConfigNode.Objec
                 Optional<ConfigParser> parser = configSource.parser();
 
                 if (parser.isPresent()) {
-                    return parser.get().parse(content);
+                    ConfigNode.ObjectNode parsed = parser.get().parse(content);
+                    parsed.configSource(configSource);
+                    parsed.sourcePriority(sourcePriority.get());
+                    return parsed;
                 }
 
-                // media type should either be configured on config source, or in content
+                // media type should either be configured on config configSource, or in content
                 Optional<String> mediaType = configSource.mediaType().or(content::mediaType);
 
                 if (mediaType.isPresent()) {
                     parser = context.findParser(mediaType.get());
                     if (parser.isEmpty()) {
                         throw new IllegalStateException("Cannot find suitable parser for '" + mediaType
-                            .get() + "' media type for config source " + configSource.getName());
+                            .get() + "' media type for config configSource " + configSource.getName());
                     }
-                    return parser.get().parse(content);
+                    ConfigNode.ObjectNode parsed = parser.get().parse(content);
+                    parsed.configSource(configSource);
+                    parsed.sourcePriority(sourcePriority.get());
+                    return parsed;
                 }
 
-                throw new IllegalStateException("Could not find media type of config source " + configSource.getName());
+                throw new IllegalStateException("Could not find media type of config configSource " + configSource.getName());
             });
     }
 }

@@ -25,11 +25,14 @@ import jakarta.config.spi.NodeConfigSource;
 class NodeConfigSourceReloader implements Supplier<Optional<ConfigNode.ObjectNode>> {
     private final NodeConfigSource configSource;
     private final AtomicReference<Object> lastStamp;
+    private final Supplier<Integer> sourcePriority;
 
     NodeConfigSourceReloader(NodeConfigSource configSource,
-                                    AtomicReference<Object> lastStamp) {
+                             AtomicReference<Object> lastStamp,
+                             Supplier<Integer> sourcePriority) {
         this.configSource = configSource;
         this.lastStamp = lastStamp;
+        this.sourcePriority = sourcePriority;
     }
 
     @Override
@@ -37,7 +40,10 @@ class NodeConfigSourceReloader implements Supplier<Optional<ConfigNode.ObjectNod
         return configSource.load()
             .map(content -> {
                 lastStamp.set(content.stamp().orElse(null));
-                return content.data();
+                ConfigNode.ObjectNode data = content.data();
+                data.configSource(configSource);
+                data.sourcePriority(sourcePriority.get());
+                return data;
             });
     }
 }

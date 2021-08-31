@@ -1,8 +1,11 @@
+# increase priority
 config_priority: 101
+# change to 5 seconds
+config_polling_duration: "PT5S"
 
 server:
     host: "0.0.0.0"
-    port: 8020
+    port: 8026
 
 # Requires defined order
 providers:

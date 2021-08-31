@@ -6,14 +6,13 @@ import java.util.Properties;
 
 import jakarta.config.ReservedKeys;
 import jakarta.config.spi.ConfigContent;
-import jakarta.config.spi.ConfigNode;
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.NodeConfigSource;
 import jakarta.config.spi.PollableConfigSource;
 
 class SystemPropertiesConfigSource implements ConfigSource,
-                                                     NodeConfigSource,
-                                                     PollableConfigSource<Map<?, ?>> {
+                                              NodeConfigSource,
+                                              PollableConfigSource<Map<?, ?>> {
 
     private final Properties mapReference;
     private final int priority;
@@ -41,11 +40,9 @@ class SystemPropertiesConfigSource implements ConfigSource,
 
     @Override
     public Optional<ConfigContent.NodeContent> load() {
-        return Optional.of(new NodeContentBuilder()
-                               .node(ConfigUtils.mapToObjectNode(ConfigUtils.propertiesToMap(mapReference)))
-                               // stamp is the current state of the map
-                               .stamp(Map.copyOf(mapReference))
-                               .build());
+        Map<Object, Object> stamp = Map.copyOf(mapReference);
+        return Optional.of(new NodeContentImpl(ConfigUtils.mapToObjectNode(ConfigUtils.propertiesToMap(mapReference)),
+                                               stamp));
     }
 
     @Override
@@ -53,55 +50,8 @@ class SystemPropertiesConfigSource implements ConfigSource,
         return priority;
     }
 
-    private static class NodeContentBuilder {
-        // node based config source data
-        private ConfigNode.ObjectNode rootNode;
-        private Object stamp;
-
-        /**
-         * Node with the configuration of this content.
-         *
-         * @param rootNode the root node that links the configuration tree of this source
-         * @return updated builder instance
-         */
-        public NodeContentBuilder node(ConfigNode.ObjectNode rootNode) {
-            this.rootNode = rootNode;
-
-            return this;
-        }
-
-        public NodeContentBuilder stamp(Object stamp) {
-            this.stamp = stamp;
-            return this;
-        }
-
-        ConfigNode.ObjectNode node() {
-            return rootNode;
-        }
-
-        ConfigContent.NodeContent build() {
-            return new ContentImpl(stamp, rootNode);
-        }
-    }
-
-    private static class ContentImpl implements ConfigContent.NodeContent {
-
-        private final Object stamp;
-        private final ConfigNode.ObjectNode rootNode;
-
-        public ContentImpl(Object stamp, ConfigNode.ObjectNode rootNode) {
-            this.stamp = stamp;
-            this.rootNode = rootNode;
-        }
-
-        @Override
-        public Optional<Object> stamp() {
-            return Optional.of(stamp);
-        }
-
-        @Override
-        public ConfigNode.ObjectNode data() {
-            return rootNode;
-        }
+    @Override
+    public String toString() {
+        return getName();
     }
 }

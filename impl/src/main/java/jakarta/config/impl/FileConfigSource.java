@@ -16,6 +16,7 @@ import jakarta.config.impl.FileSourceHelper.DataAndDigest;
 import jakarta.config.spi.ConfigContent;
 import jakarta.config.spi.ConfigParser;
 import jakarta.config.spi.ConfigSource;
+import jakarta.config.spi.ConfigSourceContext;
 import jakarta.config.spi.ParsableConfigSource;
 import jakarta.config.spi.PollableConfigSource;
 
@@ -24,19 +25,27 @@ public class FileConfigSource implements ConfigSource,
                                          PollableConfigSource<byte[]> {
 
     private final Path sourcePath;
+    private final String name;
+    private ConfigSourceContext context;
 
-    public FileConfigSource(Path sourcePath) {
+    FileConfigSource(String name, Path sourcePath) {
+        this.name = name;
         this.sourcePath = sourcePath;
     }
 
     @Override
+    public void init(ConfigSourceContext context) {
+        this.context = context;
+    }
+
+    @Override
     public String getName() {
-        return "File[" + sourcePath.toAbsolutePath() + "]";
+        return name;
     }
 
     @Override
     public Optional<ConfigParser> parser() {
-        // this is a general file source, we want the parser to be guessed based on media type
+        // this is a general file configSource, we want the parser to be guessed based on media type
         return Optional.empty();
     }
 
@@ -64,14 +73,17 @@ public class FileConfigSource implements ConfigSource,
         /*
          * Build the content
          */
-        var builder = ParsableContentImpl.builder()
+        return Optional.of(ParsableContentImpl.builder()
             .stamp(dad.digest())
-            .data(dataStream);
+            .data(dataStream)
+            .update(it -> MediaTypes.detectType(sourcePath)
+                .ifPresent(it::mediaType))
+            .build());
+    }
 
-        MediaTypes.detectType(sourcePath)
-            .ifPresent(builder::mediaType);
-
-        return Optional.of(builder.build());
+    @Override
+    public String toString() {
+        return getName();
     }
 
     private boolean notModified(Path sourcePath, byte[] stamp) {

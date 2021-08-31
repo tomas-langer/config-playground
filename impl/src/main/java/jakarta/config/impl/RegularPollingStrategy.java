@@ -2,7 +2,6 @@ package jakarta.config.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -16,20 +15,17 @@ public class RegularPollingStrategy implements PollingStrategy {
     private static final Logger LOGGER = Logger.getLogger(RegularPollingStrategy.class.getName());
 
     private final Duration delay;
-    private ScheduledExecutorService executor;
+    private final ScheduledExecutorService executor;
     private ScheduledFuture<?> scheduledFuture;
     private volatile Polled polled;
 
-    public RegularPollingStrategy(Duration delay) {
+    public RegularPollingStrategy(ScheduledExecutorService scheduledExecutorService, Duration delay) {
+        this.executor = scheduledExecutorService;
         this.delay = delay;
     }
 
     @Override
     public void start(Polled polled) {
-        if (executor == null || executor.isShutdown()) {
-            executor = Executors.newSingleThreadScheduledExecutor(new ConfigThreadFactory("polling-" + delay));
-        }
-
         this.polled = polled;
         scheduleNext();
     }
@@ -38,9 +34,6 @@ public class RegularPollingStrategy implements PollingStrategy {
     public void stop() {
         if (scheduledFuture != null) {
             scheduledFuture.cancel(true);
-        }
-        if (executor != null) {
-            executor.shutdownNow();
         }
     }
 
@@ -61,6 +54,7 @@ public class RegularPollingStrategy implements PollingStrategy {
     }
 
     private synchronized void fireEvent() {
+        LOGGER.finest(() -> "Polling " + polled);
         polled.poll(Instant.now());
         scheduleNext();
     }

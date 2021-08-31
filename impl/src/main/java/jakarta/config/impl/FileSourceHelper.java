@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Utilities for file-related source classes.
+ * Utilities for file-related configSource classes.
  */
 final class FileSourceHelper {
 

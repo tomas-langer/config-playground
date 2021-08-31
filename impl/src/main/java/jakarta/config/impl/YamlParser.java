@@ -36,13 +36,13 @@ public class YamlParser implements ConfigParser, Prioritized {
     public ObjectNode parse(ConfigContent.ParsableContent content) {
         try (InputStreamReader reader = new InputStreamReader(content.data(), content.charset())) {
             Map yamlMap = toMap(reader);
-            if (yamlMap == null) { // empty source
+            if (yamlMap == null) { // empty configSource
                 return ObjectNodeImpl.builder("").build();
             }
 
             return fromMap(yamlMap);
         } catch (Exception e) {
-            throw new IllegalStateException("Cannot read from source: " + e.getLocalizedMessage(), e);
+            throw new IllegalStateException("Cannot read from configSource: " + e.getLocalizedMessage(), e);
         }
     }
 

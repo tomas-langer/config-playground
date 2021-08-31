@@ -10,17 +10,15 @@ import java.util.function.Function;
 
 import jakarta.config.spi.ConfigNode;
 import jakarta.config.spi.ConfigNode.ListNode;
-
-import static jakarta.config.impl.AbstractNodeBuilder.formatFrom;
+import jakarta.config.spi.ConfigSource;
 
 class ListNodeImpl extends AbstractList<ConfigNode> implements ListNode {
     private final List<ConfigNode> elements;
     private final String value;
     private final String key;
+    private final ConfigSourceInfo info = new ConfigSourceInfo();
 
-    private String description;
-
-    public ListNodeImpl(Builder builder) {
+    ListNodeImpl(Builder builder) {
         this.elements = List.copyOf(builder.elements);
         this.value = builder.value;
         this.key = builder.key();
@@ -92,6 +90,28 @@ class ListNodeImpl extends AbstractList<ConfigNode> implements ListNode {
         return key;
     }
 
+    @Override
+    public Optional<ConfigSource> configSource() {
+        return info.configSource();
+    }
+
+    @Override
+    public Optional<Integer> sourcePriority() {
+        return info.sourcePriority();
+    }
+
+    @Override
+    public void configSource(ConfigSource source) {
+        info.configSource(source);
+        elements.forEach(it -> it.configSource(source));
+    }
+
+    @Override
+    public void sourcePriority(int priority) {
+        info.sourcePriority(priority);
+        elements.forEach(it -> it.sourcePriority(priority));
+    }
+
     private ConfigNode mergeWithList(ListNodeImpl node) {
         if (node.hasValue()) {
             return node;
@@ -135,8 +155,8 @@ class ListNodeImpl extends AbstractList<ConfigNode> implements ListNode {
             throw new IllegalStateException(
                 String.format("Cannot merge OBJECT members %s%s with an LIST node%s.",
                               unprocessedPeerNames,
-                              formatFrom(node.description()),
-                              formatFrom(description)));
+                              node,
+                              this));
         } else {
             return builder.build();
         }

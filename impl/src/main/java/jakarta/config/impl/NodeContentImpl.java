@@ -1,5 +1,7 @@
 package jakarta.config.impl;
 
+import java.util.Optional;
+
 import jakarta.config.spi.ConfigContent;
 import jakarta.config.spi.ConfigNode;
 
@@ -21,5 +23,10 @@ class NodeContentImpl implements ConfigContent.NodeContent {
     @Override
     public ConfigNode.ObjectNode data() {
         return data;
+    }
+
+    @Override
+    public Optional<Object> stamp() {
+        return Optional.ofNullable(stamp);
     }
 }
