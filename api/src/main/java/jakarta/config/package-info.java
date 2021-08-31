@@ -35,7 +35,7 @@
  *
  * <p>
  * A <em>Configuration</em> consists of the information collected from the registered
- * {@link jakarta.config.flat.spi.ConfigSource ConfigSources}. These {@code ConfigSources} get sorted
+ * {@link jakarta.config.spi.ConfigSource ConfigSources}. These {@code ConfigSources} get sorted
  * according to their <i>ordinal</i>. That way it is possible to overwrite configuration with lower importance from
  * outside.
  *
@@ -55,15 +55,15 @@
  * configuration.
  *
  * <p>
- * It is of course also possible to register own {@link jakarta.config.flat.spi.ConfigSource ConfigSources}.
+ * It is of course also possible to register own {@link jakarta.config.spi.ConfigSource ConfigSources}.
  * A {@code ConfigSource} could e.g. read configuration values from a database table, a remote server, etc
  *
  * <h2>Accessing and Using the Configuration</h2>
  *
  * <p>
- * The configuration of an application is represented by an instance of {@link jakarta.config.flat.Config}.
- * The {@link jakarta.config.flat.Config} can be accessed via the
- * {@link jakarta.config.flat.ConfigProvider}.
+ * The configuration of an application is represented by an instance of {@link jakarta.config.Config}.
+ * The {@link jakarta.config.Config} can be accessed via the
+ * {@link jakarta.config.ConfigProvider}.
  *
  * <pre>
  * Config config = ConfigProvider.getConfig();
@@ -82,5 +82,4 @@
  * @author <a href="emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-@org.osgi.annotation.versioning.Version("2.0.0")
 package jakarta.config;

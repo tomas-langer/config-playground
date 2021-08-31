@@ -1,0 +1,15 @@
+config_priority: 101
+
+server:
+    host: "0.0.0.0"
+    port: 8020
+
+# Requires defined order
+providers:
+    - type: "yaml-type"
+      config:
+          enabled: true
+          message: "yaml-hi"
+    - class: "yaml-fqcn"
+      optional: true
+

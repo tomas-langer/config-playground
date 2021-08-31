@@ -22,9 +22,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jakarta-config-example</artifactId>
-    <name>Jakarta Config Example</name>
-    <description>Jakarta Config :: Example</description>
+    <artifactId>jakarta-config-impl</artifactId>
+    <name>Jakarta Config Impl</name>
+    <description>Jakarta Config :: Impl</description>
 
     <dependencies>
         <dependency>
@@ -32,10 +32,36 @@
             <artifactId>jakarta-config-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>jakarta.config</groupId>
-            <artifactId>jakarta-config-impl</artifactId>
-            <scope>runtime</scope>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <!-- YAML parser -->
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.27</version>
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.helidon.build-tools</groupId>
+                <artifactId>helidon-services-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <mode>fail</mode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-meta-inf-services</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>services</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

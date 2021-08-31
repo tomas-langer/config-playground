@@ -4,7 +4,7 @@ public class ReservedKeys {
     /**
      * Priority of config source.
      */
-    public static final String CONFIG_ORDINAL = "config_ordinal";
+    public static final String CONFIG_PRIORITY = "config_priority";
     /**
      * If we significantly change the way source is loaded, we may have a possibility to
      * load it in the old approach.

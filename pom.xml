@@ -32,11 +32,14 @@
 
     <properties>
         <inceptionYear>2021</inceptionYear>
-        <maven.compiler.release>11</maven.compiler.release>
+        <jakarta.java.version>11</jakarta.java.version>
+        <!-- playground...-->
+        <skipChecks>true</skipChecks>
     </properties>
 
     <modules>
         <module>api</module>
+        <module>impl</module>
         <module>example</module>
     </modules>
 
@@ -110,10 +113,39 @@
             </dependency>
             <dependency>
                 <groupId>jakarta.config</groupId>
-                <artifactId>jakarta-config-cdi-api</artifactId>
+                <artifactId>jakarta-config-impl</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${jakarta.java.version}</source>
+                        <target>${jakarta.java.version}</target>
+                        <release>${jakarta.java.version}</release>
+                        <compilerArgs>
+                            <arg>-Xlint:unchecked</arg>
+                            <!--
+                            https://issues.apache.org/jira/browse/MCOMPILER-368
+                             -->
+                            <arg>-Xpkginfo:always</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

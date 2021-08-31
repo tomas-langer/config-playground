@@ -1,32 +1,42 @@
 package jakarta.config.example;
 
-import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
-import jakarta.config.flat.Config;
-import jakarta.config.flat.ConfigProvider;
-import jakarta.config.flat.Configured;
+import jakarta.config.Config;
+import jakarta.config.ConfigProvider;
 
 public class ApiExampleMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         defaults();
     }
 
-    private static void defaults() {
+    private static void defaults() throws InterruptedException {
         // get default configuration
         Config config = ConfigProvider.getConfig();
 
-        String name = config.getValue("app.person.name", String.class);
-        Person configured = config.getValue("app.person", Person.class);
+        Config serverConfig = config.get("server");
+        Config portConfig = serverConfig.get("port");
 
-        System.out.println("Name: " + name);
-        System.out.println("Configured: " + configured);
+        printServerConfig(serverConfig);
+
+        config.get("providers")
+            .asNodeList()
+            .ifPresent(list -> {
+               list.forEach(it -> System.out.println("type: " + it.get("type").asString() + ", class: " + it.get("class").asString()));
+            });
+
+        serverConfig.onChange(ApiExampleMain::printServerConfig);
+        portConfig.onChange(it -> System.out.println("Changed port to: " + it.asInt().orElse(-1)));
+        System.out.println();
+
+        // sleep so we can see changes
+        TimeUnit.SECONDS.sleep(100);
     }
 
-    public interface Person {
-        @Configured(defaultValue = "Jane Doe")
-        String name();
-        @Configured("year-of-birth")
-        int birthYear();
-        URI homepage();
+    private static void printServerConfig(Config serverConfig) {
+        String host = serverConfig.get("host").asString().orElse("unknown");
+        int port = serverConfig.get("port").asInt().orElse(-1);
+
+        System.out.println("http://" + host + ":" + port);
     }
 }
