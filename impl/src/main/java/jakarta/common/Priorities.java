@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jakarta.config.impl;
+package jakarta.common;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,7 +24,7 @@ import jakarta.config.spi.ConfigSource;
 /**
  * Priority utilities.
  */
-final class Priorities {
+public final class Priorities {
     private Priorities() {
     }
 
@@ -73,14 +73,6 @@ final class Priorities {
             return defaultPriority;
         }
         return prio.value();
-    }
-
-    /**
-     * Sort the prioritized list based on priorities.
-     * @param list list to sort
-     */
-    public static void sort(List<? extends Prioritized> list) {
-        list.sort(Comparator.comparingInt(Prioritized::priority));
     }
 
     /**

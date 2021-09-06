@@ -55,7 +55,7 @@ public interface ConfigParser {
      * Set of supported media types is used when config system looks for appropriate parser based on media type
      * of content.
      * <p>
-     * {@link io.helidon.config.spi.ParsableSource} implementations can use {@link io.helidon.common.media.type.MediaTypes}
+     * {@link io.helidon.config.spi.ParsableSource} implementations can use {@link media.type.MediaTypes}
      * to probe for media type of content to provide it to config system through
      * {@link io.helidon.config.spi.ConfigParser.Content.Builder#mediaType(String)}.
      *
@@ -81,7 +81,7 @@ public interface ConfigParser {
      * system and on classpath to discover configuration files.
      * <p>
      * Note that the suffixes must resolve into a media type supported by a config parser
-     * (see {@link io.helidon.common.media.type.MediaTypes#detectExtensionType(String)}).
+     * (see {@link media.type.MediaTypes#detectExtensionType(String)}).
      *
      * @return a set of file suffixes supported by this config parser.
      */

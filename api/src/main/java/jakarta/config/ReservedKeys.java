@@ -14,6 +14,22 @@ public class ReservedKeys {
     public static final String CONFIG_VERSION = "config_version";
 
     /**
+     * Whether any type of change support is enabled on this source.
+     * If a source implements any interface with change support, this defaults to true.
+     * Configuration key is {@value}.
+     */
+    public static final String CHANGE_SUPPORT_ENABLED = "config_changes_enabled";
+    /**
+     * If a config source implements both {@link jakarta.config.spi.WatchableConfigSource}
+     * and {@link jakarta.config.spi.PollableConfigSource},
+     * this property can be used to disable change watching even if supported by config. In such a case
+     * polling would be used. Configuration key is {@value}.
+     *
+     * @see #CONFIG_POLLING_ENABLED
+     * @see #CHANGE_SUPPORT_ENABLED
+     */
+    public static final String CHANGE_WATCHER_ENABLED = "config_change_watcher_enabled";
+    /**
      * Whether polling is enabled if the config source implements {@link jakarta.config.spi.PollableConfigSource},
      *  configuration key is {@value}.
      *

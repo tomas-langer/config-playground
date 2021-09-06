@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 
+import jakarta.common.Priorities;
 import jakarta.config.spi.ConfigParser;
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.ConfigSourceContext;
@@ -39,7 +40,8 @@ class ConfigSourceContextImpl implements ConfigSourceContext {
                                                                           priority));
     }
 
-    Optional<ConfigParser> findParser(String mediaType) {
+    @Override
+    public Optional<ConfigParser> findParser(String mediaType) {
         Objects.requireNonNull(mediaType, "Unknown media type of resource.");
 
         return configParsers.stream()

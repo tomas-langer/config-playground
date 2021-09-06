@@ -3,6 +3,7 @@ package jakarta.config.impl;
 import java.util.Properties;
 import java.util.Set;
 
+import jakarta.common.Prioritized;
 import jakarta.config.spi.ConfigContent;
 import jakarta.config.spi.ConfigNode;
 import jakarta.config.spi.ConfigParser;

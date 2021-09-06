@@ -1,0 +1,10 @@
+# increase priority
+config_priority: 105
+
+# this will use file watcher (default for file config sources)
+
+server:
+    host: "0.0.0.0"
+    port: 777
+
+

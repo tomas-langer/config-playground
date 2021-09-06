@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.common.Prioritized;
 import jakarta.config.spi.ConfigContent;
 import jakarta.config.spi.ConfigNode.ListNode;
 import jakarta.config.spi.ConfigNode.ObjectNode;

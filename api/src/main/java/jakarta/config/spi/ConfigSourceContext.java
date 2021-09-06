@@ -16,6 +16,8 @@
 
 package jakarta.config.spi;
 
+import java.util.Optional;
+
 /**
  * Context created by a {@link io.helidon.config.Config.Builder} as it constructs a
  * {@link io.helidon.config.Config}.
@@ -31,4 +33,6 @@ public interface ConfigSourceContext {
      * @return a source runtime
      */
     ConfigSourceRuntime sourceRuntime(ConfigSource source);
+
+    Optional<ConfigParser> findParser(String mediaType);
 }

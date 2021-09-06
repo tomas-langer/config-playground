@@ -88,7 +88,7 @@ public abstract class ConfigProviderResolver {
     public abstract void registerConfig(Config config, ClassLoader classLoader);
 
     public void registerConfig(Config config) {
-        registerConfig(config, null);
+        registerConfig(config, Thread.currentThread().getContextClassLoader());
     }
 
     /**

@@ -59,7 +59,7 @@ class ParsableContentImpl implements ConfigContent.ParsableContent {
         return charset;
     }
 
-    static class Builder implements jakarta.config.impl.Builder<Builder, ParsableContent> {
+    static class Builder implements jakarta.common.Builder<Builder, ParsableContent> {
         private Object stamp;
         private InputStream data;
         private String mediaType;

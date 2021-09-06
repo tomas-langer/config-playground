@@ -3,6 +3,7 @@ package jakarta.config.impl;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import jakarta.common.Priorities;
 import jakarta.config.spi.Converter;
 
 class OrdinalConverter {

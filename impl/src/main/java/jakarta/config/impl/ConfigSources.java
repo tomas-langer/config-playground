@@ -82,7 +82,7 @@ public final class ConfigSources {
      * @return a new config configSource
      */
     public static ConfigSource create(Path path) {
-        return create(path.toString(), path);
+        return create("File: " + path.toAbsolutePath(), path);
     }
 
     /**
@@ -215,9 +215,10 @@ public final class ConfigSources {
                 .asIterator()
                 .forEachRemaining(it -> {
                     if ("file".equals(it.getProtocol())) {
-                        sources.add(create(Paths.get(it.getPath())));
+                        Path path = Paths.get(it.getPath());
+                        sources.add(create("Classpath: " + path.toAbsolutePath(), path));
                     } else {
-                        sources.add(create(it));
+                        sources.add(new UrlConfigSource("Classpath: " + it, it));
                     }
                 });
         } catch (IOException e) {

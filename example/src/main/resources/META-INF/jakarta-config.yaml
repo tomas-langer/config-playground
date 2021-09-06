@@ -1,7 +1,8 @@
 # increase priority
-config_priority: 101
+config_priority: 107
+config_change_watcher_enabled: false
 # change to 5 seconds
-config_polling_duration: "PT5S"
+config_polling_duration: "PT10S"
 
 server:
     host: "0.0.0.0"

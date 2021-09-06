@@ -20,11 +20,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.stream.Collectors;
 
 import jakarta.config.Config;
 import jakarta.config.spi.ConfigBuilder;
@@ -32,6 +30,7 @@ import jakarta.config.spi.ConfigParser;
 import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.ConfigSourceProvider;
 import jakarta.config.spi.Converter;
+import jakarta.config.spi.ExecutorServiceProvider;
 
 /**
  * Configuration builder.
@@ -43,15 +42,9 @@ class ConfigBuilderImpl implements ConfigBuilder {
     private static final Set<String> SUPPORTED_SUFFIXES;
 
     static {
-        ServiceLoader<ConfigParser> services = ServiceLoader.load(ConfigParser.class);
+        PrioritizedServiceLoader<ConfigParser> services = PrioritizedServiceLoader.create(ConfigParser.class);
 
-        PARSERS = services.stream()
-            .map(ServiceLoader.Provider::get)
-            .sorted((o1, o2) -> {
-                int p1 = Priorities.find(o1, ConfigParser.PRIORITY);
-                int p2 = Priorities.find(o2, ConfigParser.PRIORITY);
-                return Integer.compare(p1, p2);
-            }).collect(Collectors.toCollection(LinkedList::new));
+        PARSERS = services.asList();
 
         // can be a constant
         Set<String> supportedSuffixes = new LinkedHashSet<>();
@@ -78,7 +71,13 @@ class ConfigBuilderImpl implements ConfigBuilder {
     public Config build() {
         ScheduledExecutorService executor = changesExecutor;
         if (executor == null) {
-            executor = Executors.newSingleThreadScheduledExecutor(new ConfigThreadFactory("config-changes"));
+            // load it from a service loader (we provide the default implementation
+            executor = PrioritizedServiceLoader.create(ExecutorServiceProvider.class)
+                .asList()
+                .stream()
+                .findFirst()
+                .map(ExecutorServiceProvider::service)
+                .orElseGet(() -> Executors.newSingleThreadScheduledExecutor(new ConfigThreadFactory("config-changes")));
         }
         // the build method MUST NOT modify builder state, as it may be called more than once
         // there are three lists used by the configuration:
@@ -208,16 +207,16 @@ class ConfigBuilderImpl implements ConfigBuilder {
     }
 
     private void addDiscoveredSources(List<OrdinalConfigSource> targetConfigSources) {
-        ServiceLoader.load(ConfigSource.class)
+        PrioritizedServiceLoader.create(ConfigSource.class)
             .forEach(it -> targetConfigSources.add(new OrdinalConfigSource(it)));
 
-        ServiceLoader.load(ConfigSourceProvider.class)
+        PrioritizedServiceLoader.create(ConfigSourceProvider.class)
             .forEach(it -> it.getConfigSources(classLoader)
                 .forEach(source -> targetConfigSources.add(new OrdinalConfigSource(source))));
     }
 
     private void addDiscoveredConverters(List<OrdinalConverter> targetConverters) {
-        ServiceLoader.load(Converter.class)
+        PrioritizedServiceLoader.create(Converter.class)
             .forEach(it -> targetConverters.add(new OrdinalConverter(it)));
     }
 

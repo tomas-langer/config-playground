@@ -34,7 +34,6 @@
         <dependency>
             <groupId>jakarta.config</groupId>
             <artifactId>jakarta-config-impl</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

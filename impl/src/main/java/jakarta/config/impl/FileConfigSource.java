@@ -19,10 +19,12 @@ import jakarta.config.spi.ConfigSource;
 import jakarta.config.spi.ConfigSourceContext;
 import jakarta.config.spi.ParsableConfigSource;
 import jakarta.config.spi.PollableConfigSource;
+import jakarta.config.spi.WatchableConfigSource;
 
 public class FileConfigSource implements ConfigSource,
                                          ParsableConfigSource,
-                                         PollableConfigSource<byte[]> {
+                                         PollableConfigSource<byte[]>,
+                                         WatchableConfigSource<Path> {
 
     private final Path sourcePath;
     private final String name;
@@ -84,6 +86,23 @@ public class FileConfigSource implements ConfigSource,
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public boolean exists() {
+        return Files.exists(sourcePath)
+            && !Files.isDirectory(sourcePath)
+            && Files.isReadable(sourcePath);
+    }
+
+    @Override
+    public Class<Path> changeWatcherType() {
+        return Path.class;
+    }
+
+    @Override
+    public Path changeWatcherTarget() {
+        return sourcePath;
     }
 
     private boolean notModified(Path sourcePath, byte[] stamp) {

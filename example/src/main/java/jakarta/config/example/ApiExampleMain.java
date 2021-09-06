@@ -2,19 +2,36 @@ package jakarta.config.example;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 
 import jakarta.config.Config;
 import jakarta.config.ConfigProvider;
 import jakarta.config.ConfigValue;
+import jakarta.config.impl.ConfigSources;
+import jakarta.config.spi.ConfigProviderResolver;
+import jakarta.config.spi.ConfigSource;
 
 public class ApiExampleMain {
     // for some reason (at least on my machine) the user.timezone is set to empty at startup,
     // and then suddenly changes to the correct timezone, so we get a trigger for changed configuration
     public static void main(String[] args) throws Exception {
         logConfig();
-        defaults();
+        if (args.length > 0 && args[0].equals("builder")) {
+            buildCustomConfig();
+        }
+
+        configurationExample();
+    }
+
+    private static void buildCustomConfig() {
+        ConfigProviderResolver res = ConfigProviderResolver.instance();
+        Config config = res.getBuilder()
+            .addDefaultSources()
+            .withSources(ConfigSources.create(Paths.get("jakarta-config.yaml")))
+            .build();
+        res.registerConfig(config);
     }
 
     private static void logConfig() {
@@ -31,9 +48,15 @@ public class ApiExampleMain {
         }
     }
 
-    private static void defaults() throws InterruptedException {
+    private static void configurationExample() throws InterruptedException {
         // get default configuration
         Config config = ConfigProvider.getConfig();
+
+        Iterable<ConfigSource> configSources = config.getConfigSources();
+        System.out.println("Used config sources:");
+        for (ConfigSource configSource : configSources) {
+            System.out.println("\t" + configSource.getName());
+        }
 
         Config serverConfig = config.get("server");
         Config portConfig = serverConfig.get("port");

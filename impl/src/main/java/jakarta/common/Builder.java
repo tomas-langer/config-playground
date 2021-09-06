@@ -1,4 +1,4 @@
-package jakarta.config.impl;
+package jakarta.common;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -29,18 +29,10 @@ public interface Builder<B extends Builder<B, T>, T> extends Supplier<T> {
      * @param builderConsumer consumer of this builder
      * @return updated builder instance
      */
-    default B update(Consumer<B> builderConsumer) {
-        builderConsumer.accept(me());
-        return me();
-    }
-
-    /**
-     * Helper method to obtain correctly typed instance of the builder.
-     *
-     * @return this builder
-     */
     @SuppressWarnings("unchecked")
-    default B me() {
+    default B update(Consumer<B> builderConsumer) {
+        builderConsumer.accept((B) this);
         return (B) this;
     }
+
 }

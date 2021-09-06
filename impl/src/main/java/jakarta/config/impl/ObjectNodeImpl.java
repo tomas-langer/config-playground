@@ -170,7 +170,7 @@ class ObjectNodeImpl
     }
 
     static class Builder extends AbstractNodeBuilder<String, Builder>
-        implements jakarta.config.impl.Builder<Builder, ObjectNodeImpl> {
+            implements jakarta.common.Builder<Builder, ObjectNodeImpl> {
 
         private final Map<String, ConfigNode> members = new HashMap<>();
         private String value;

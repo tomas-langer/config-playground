@@ -163,7 +163,7 @@ class ListNodeImpl extends AbstractList<ConfigNode> implements ListNode {
     }
 
     static class Builder extends AbstractNodeBuilder<Integer, Builder>
-        implements jakarta.config.impl.Builder<Builder, ListNodeImpl> {
+            implements jakarta.common.Builder<Builder, ListNodeImpl> {
         private final List<ConfigNode> elements = new LinkedList<>();
         private String value;
 

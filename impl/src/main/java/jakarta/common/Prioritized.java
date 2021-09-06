@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jakarta.config.impl;
+package jakarta.common;
 
 /**
  * Interface to define that this class is a class with priority.
@@ -24,13 +24,9 @@ package jakarta.config.impl;
  * <p>
  * For cases where priority is the same, implementation must define ordering of such {@code Prioritized}.
  * <p>
- * <b>Negative priorities are not allowed and services using priorities should throw an
- * {@link IllegalArgumentException} if such a priority is used (unless such a service
- * documents the specific usage of a negative priority)</b>
- * <p>
  * A {@code Prioritized} with priority {@code 1} is more significant (will be returned before) priority {@code 2}.
  */
-interface Prioritized {
+public interface Prioritized extends Comparable<Prioritized> {
     /**
      * Default priority for any prioritized component (whether it implements this interface
      * or uses {@code javax.annotation.Priority} annotation.
@@ -44,7 +40,12 @@ interface Prioritized {
      * annotation rather then implementing this interface as long as
      * it is supported by the library using this {@code Prioritized}.
      *
-     * @return the priority of this service, must be a non-negative number
+     * @return the priority of this service
      */
     int priority();
+
+    @Override
+    default int compareTo(Prioritized o) {
+        return Integer.compare(priority(), o.priority());
+    }
 }

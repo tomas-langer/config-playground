@@ -1,5 +1,6 @@
 package jakarta.config.impl;
 
+import jakarta.common.Priorities;
 import jakarta.config.spi.ConfigSource;
 
 class OrdinalConfigSource {

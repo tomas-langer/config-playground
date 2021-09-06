@@ -512,6 +512,10 @@ public interface Config {
         // no-op
     }
 
+    default void onChangeError(Consumer<Throwable> errorConsumer) {
+
+    }
+
     enum Type {
         /**
          * Object node with named members and a possible direct value.
