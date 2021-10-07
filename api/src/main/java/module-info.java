@@ -23,4 +23,6 @@
 module jakarta.config.api {
     exports jakarta.config;
     exports jakarta.config.spi;
+
+    uses jakarta.config.spi.ConfigProviderResolver;
 }
