@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.7</version>
+    </parent>
+
+    <groupId>jakarta.config</groupId>
+    <artifactId>jakarta.config</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Jakarta Config</name>
+    <description>Jakarta Config Specification</description>
+    <inceptionYear>2021</inceptionYear>
+    <url>https://eclipse-ee4j.github.io/config</url>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/eclipse-ee4j/config/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>Mailing list</name>
+            <archive>config-dev@eclipse.org</archive>
+        </mailingList>
+    </mailingLists>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/eclipse-ee4j/config.git</connection>
+        <developerConnection>scm:git:git@github.com:eclipse-ee4j/config.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/config</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>m0mus</id>
+            <name>Dmitry Kornilov</name>
+            <email>dmitry.kornilov@oracle.com</email>
+            <url>https://dmitrykornilov.net</url>
+            <organization>Oracle</organization>
+            <timezone>CET</timezone>
+        </developer>
+        <developer>
+            <id>Emily-Jiang</id>
+            <name>Emily Jiang</name>
+            <url>https://github.com/Emily-Jiang</url>
+            <organization>IBM</organization>
+            <organizationUrl>https://www.ibm.com</organizationUrl>
+        </developer>
+        <developer>
+            <id>tlanger</id>
+            <name>Tomas Langer</name>
+            <email>tomas.langer@oracle.com</email>
+            <url>https://github.com/tomas-langer</url>
+            <organization>Oracle</organization>
+            <timezone>CET</timezone>
+        </developer>
+        <developer>
+            <id>struberg</id>
+            <name>Mark Struberg</name>
+            <url>https://github.com/struberg</url>
+        </developer>
+        <developer>
+            <id>radcortez</id>
+            <name>Roberto Cortez</name>
+            <url>https://radcortez.com</url>
+            <organization>Red Hat Inc.</organization>
+            <organizationUrl>https://redhat.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.7.2</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.config</groupId>
+                <artifactId>jakarta-config-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
