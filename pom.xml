@@ -31,6 +31,10 @@
     <inceptionYear>2021</inceptionYear>
     <url>https://eclipse-ee4j.github.io/config</url>
 
+    <modules>
+        <module>api</module>
+    </modules>
+
     <issueManagement>
         <system>github</system>
         <url>https://github.com/eclipse-ee4j/config/issues</url>
