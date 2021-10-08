@@ -21,6 +21,9 @@
  * Jakarta Config.
  */
 module jakarta.config.api {
+    requires jakarta.annotation;
+    requires static jakarta.inject;
+
     exports jakarta.config;
     exports jakarta.config.spi;
 
