@@ -25,6 +25,7 @@ module jakarta.config.api {
     requires static jakarta.inject;
 
     exports jakarta.config;
+    exports jakarta.config.inject;
     exports jakarta.config.spi;
 
     uses jakarta.config.spi.ConfigProviderResolver;
