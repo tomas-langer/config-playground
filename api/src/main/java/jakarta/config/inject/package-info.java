@@ -18,15 +18,19 @@
  */
 
 /**
- * Jakarta Config.
+ * This package contains classes which are used to implement the configuration API, and to extend the standard
+ * configuration functionality in a portable way.
+ * <p>
+ * Users and frameworks may provide custom {@link jakarta.config.spi.ConfigSource} and
+ * {@link jakarta.config.spi.Converter} instances. Configuration instances may be set up and created
+ * using the {@link jakarta.config.spi.ConfigBuilder} API.
+ * <p>
+ * The package also contains the class {@link jakarta.config.spi.ConfigProviderResolver}, which is used
+ * to implement the specification itself.
+ *
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ *
  */
-module jakarta.config.api {
-    requires jakarta.annotation;
-    requires static jakarta.inject;
 
-    exports jakarta.config;
-    exports jakarta.config.inject;
-    exports jakarta.config.spi;
-
-    uses jakarta.config.spi.ConfigProviderResolver;
-}
+package jakarta.config.inject;
