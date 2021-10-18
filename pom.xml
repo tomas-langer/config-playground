@@ -47,7 +47,7 @@
         <version.arquillian>1.7.0.Alpha10</version.arquillian>
         <version.hamcrest>1.3</version.hamcrest>
         <version.jakarta.annotation>2.0.0</version.jakarta.annotation>
-        <version.jakarta.inject>2.0.0</version.jakarta.inject>
+        <version.jakarta.inject>2.0.1</version.jakarta.inject>
         <version.junit>5.8.1</version.junit>
         <version.testng>7.4.0</version.testng>
 
