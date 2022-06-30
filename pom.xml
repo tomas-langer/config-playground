@@ -49,7 +49,7 @@
         <version.jakarta.annotation>2.0.0</version.jakarta.annotation>
         <version.jakarta.inject>2.0.0</version.jakarta.inject>
         <version.junit>5.8.1</version.junit>
-        <version.testng>7.4.0</version.testng>
+        <version.testng>7.6.1</version.testng>
 
         <version.plugin.compiler>3.8.1</version.plugin.compiler>
     </properties>
